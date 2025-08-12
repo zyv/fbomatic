@@ -37,7 +37,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_bootstrap5",
 ]
+
+BOOTSTRAP5 = {
+    "css_url": "/static/css/bootstrap.min.css",
+    "javascript_url": "/static/js/bootstrap.bundle.min.js",
+    "horizontal_label_class": "col-sm-3",
+    "horizontal_field_class": "col-sm-9",
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
