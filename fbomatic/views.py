@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.db import transaction
 from django.db.models import F, QuerySet
 from django.http import HttpResponseRedirect
@@ -191,7 +192,12 @@ def top_up(request):
             reversion.set_user(request.user)
             reversion.set_comment("Pump level reset")
 
-            # TODO mail
+    send_mail(
+        f"{settings.EMAIL_SUBJECT_PREFIX}Pump filled by {request.user.first_name} {request.user.last_name} ({-quantity} L)",
+        "",
+        settings.NOTIFICATIONS_EMAIL_FROM,
+        [settings.NOTIFICATIONS_EMAIL_TO],
+    )
 
     messages.success(request, _("Pump level reset to full"))
     return HttpResponseRedirect(reverse("fbomatic:index"))
