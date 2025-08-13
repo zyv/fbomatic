@@ -11,10 +11,15 @@ license = "MIT"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "dj-database-url",
     "django",
     "django-bootstrap5",
+    "django-reversion",
+    "django-username-email",
+    "gunicorn",
     "httpx",
-    "python-social-auth",
+    "psycopg[binary]",
+    "whitenoise[brotli]"
 ]
 
 [dependency-groups]
@@ -28,6 +33,10 @@ dev = [
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
+VEREINSFLIEGER_APP_KEY = "dummy"
+
+[tool.pytest_env]
+DJANGO_DEBUG = "1"
 
 [tool.coverage.run]
 branch = true
