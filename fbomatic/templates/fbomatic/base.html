@@ -10,7 +10,30 @@
     <title>Fbomatic</title>
 
     {% bootstrap_css %}
+
+    <link href="{% static "admin/css/vendor/select2/select2.css" %}" media="screen" rel="stylesheet">
+    <link href="{% static "css/select2-bootstrap-5-theme.min.css" %}" media="screen" rel="stylesheet">
+
+    <script src="{% static "admin/js/vendor/jquery/jquery.min.js" %}"></script>
+    <script src="{% static "admin/js/vendor/select2/select2.full.min.js" %}"></script>
+    <script src="{% static "admin/js/vendor/select2/i18n/en.js" %}"></script>
 </head>
+
+<script>
+    $(document).ready(function () {
+        $("form").on("submit", function () {
+            // Run button-blocking code asynchronously to reliably disable buttons upon submitting the form
+            setTimeout(() => $("form button").prop("disabled", true));
+        });
+
+        $(".form-apply-select2 select").select2({theme: "bootstrap-5"});
+
+        $("#languageForm").on("change", function () {
+            $(this).off("change");
+            $(this).parents("form:first").submit();
+        });
+    });
+</script>
 
 <style>
     /* Sticky footer styles */
@@ -41,7 +64,7 @@
         <div class="pb-3">
             <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
                 <div class="form-floating">
-                    <select class="form-select" name="language" id="languageForm" onchange="this.form.submit()">
+                    <select class="form-select" name="language" id="languageForm">
                         {% get_current_language as LANGUAGE_CODE %}
                         {% get_available_languages as LANGUAGES %}
                         {% get_language_info_list for LANGUAGES as languages %}
