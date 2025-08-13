@@ -1,0 +1,112 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 12:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: config/settings.py:142
+msgid "German"
+msgstr "Deutsch"
+
+#: config/settings.py:143
+msgid "English"
+msgstr "Englisch"
+
+#: fbomatic/admin.py:23
+msgid "Reset pump level to full"
+msgstr "Tankwagenstand auf voll zurücksetzen"
+
+#: fbomatic/admin.py:41
+#, python-brace-format
+msgid "{updated} pump level(s) reset to full"
+msgstr "{updated} Tankwagenstand(e) auf voll zurückgesetzt"
+
+#: fbomatic/admin.py:44
+#, python-brace-format
+msgid "Download last {count} refueling records"
+msgstr "Letzte {count} Tankvorgänge herunterladen"
+
+#: fbomatic/forms.py:8 fbomatic/templates/fbomatic/index.html:52
+msgid "Registration"
+msgstr "Kennzeichen"
+
+#: fbomatic/forms.py:9 fbomatic/templates/fbomatic/index.html:54
+msgid "Quantity"
+msgstr "Menge"
+
+#: fbomatic/templates/fbomatic/base.html:56
+msgid "Language"
+msgstr "Sprache"
+
+#: fbomatic/templates/fbomatic/index.html:10
+#: fbomatic/templates/fbomatic/index.html:53
+msgid "Remaining"
+msgstr "Vorrat"
+
+#: fbomatic/templates/fbomatic/index.html:11
+#: fbomatic/templates/fbomatic/index.html:55
+msgid "Counter"
+msgstr "Zählerstand"
+
+#: fbomatic/templates/fbomatic/index.html:21
+msgid "Log in"
+msgstr ""
+
+#: fbomatic/templates/fbomatic/index.html:27
+msgid "Hello"
+msgstr "Hallo"
+
+#: fbomatic/templates/fbomatic/index.html:36
+msgid "Record refueling"
+msgstr "Tankvorgang erfassen"
+
+#: fbomatic/templates/fbomatic/index.html:39
+msgid "Administration"
+msgstr "Verwaltung"
+
+#: fbomatic/templates/fbomatic/index.html:50
+msgid "Date"
+msgstr "Datum"
+
+#: fbomatic/templates/fbomatic/index.html:51
+msgid "Mitglied"
+msgstr "Member"
+
+#: fbomatic/templates/fbomatic/index.html:78
+msgid "Log out"
+msgstr ""
+
+#: fbomatic/templatetags/fbomatic_utils.py:11
+msgid "Pump refilled"
+msgstr "Tankwagen nachgefüllt"
+
+#: fbomatic/views.py:50
+#, fuzzy, python-brace-format
+msgid "Last {count} fueling actions"
+msgstr "Letzte {count} Tankvorgänge"
+
+#: fbomatic/views.py:94 fbomatic/views.py:105
+msgid "Invalid form data"
+msgstr "Ungültige Angaben"
+
+#: fbomatic/views.py:111
+msgid "Not enough fuel in the pump"
+msgstr "Nicht genügend Kraftstoff"
+
+#: fbomatic/views.py:131
+msgid "Refueling recorded"
+msgstr "Tankvorgang erfasst"
