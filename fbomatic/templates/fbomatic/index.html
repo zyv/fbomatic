@@ -1,0 +1,83 @@
+{% extends "fbomatic/base.html" %}
+{% load fbomatic_utils %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block content %}
+
+    <div class="alert alert-primary mt-3 pb-0" role="alert">
+        <ul>
+            <li>{% translate "Remaining" %}: {{ pump.remaining }} / {{ pump.capacity }} L</li>
+            <li>{% translate "Counter" %}: {{ pump.counter }} L</li>
+        </ul>
+    </div>
+
+    {% if not user.is_authenticated %}
+
+        <div class="container mt-3">
+            <form action="{% url 'fbomatic:login' %}" method="post">
+                {% csrf_token %}
+                {% bootstrap_form auth_form layout="horizontal" %}
+                <button type="submit" name="fuel" class="btn btn-primary">{% translate "Log in" %}</button>
+            </form>
+        </div>
+
+    {% else %}
+
+        <p class="mt-3 fw-bold">{% translate "Hello" %}, {{ user.first_name }}!</p>
+
+        <div class="container mt-3">
+            <form action="{% url 'fbomatic:refuel' %}" method="post">
+                {% csrf_token %}
+                {% bootstrap_form fueling_form layout="horizontal" %}
+
+                <div class="d-grid gap-3 d-md-block">
+                    <button type="submit" name="fuel" class="btn btn-primary me-md-3">
+                        {% translate "Record refueling" %}
+                    </button>
+                    {% if user.is_staff %}
+                        <a href="{% url 'admin:index' %}" class="btn btn-warning">{% translate "Administration" %}</a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped caption-top mt-3">
+                <caption class="fw-bold">{{ actions_caption }}</caption>
+                <thead>
+                <tr>
+                    <th scope="col">{% translate "Date" %}</th>
+                    <th scope="col">{% translate "Mitglied" %}</th>
+                    <th scope="col">{% translate "Registration" %}</th>
+                    <th scope="col">{% translate "Remaining" %}</th>
+                    <th scope="col">{% translate "Quantity" %}</th>
+                    <th scope="col">{% translate "Counter" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for action in refueling_actions %}
+                    <tr>
+                        <td><abbr title="{{ action.timestamp }}">{{ action.timestamp|date:"d.m H:i" }}</abbr></td>
+                        <td>
+                            <abbr title="{{ action.user.first_name }} {{ action.user.last_name }}">{{ action.user.first_name.0 }}. {{ action.user.last_name }}</abbr>
+                        </td>
+                        <td>{{ action.aircraft | refueling_type }}</td>
+                        <td>{{ action.remaining }}&nbsp;L</td>
+                        <td>{{ action.quantity }}&nbsp;L</td>
+                        <td>{{ action.counter }}&nbsp;L</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'fbomatic:index' %}">
+            <button type="submit" class="btn btn-secondary">{% translate 'Log out' %}</button>
+        </form>
+
+    {% endif %}
+
+{% endblock %}
