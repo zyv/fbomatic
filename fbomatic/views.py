@@ -106,18 +106,21 @@ def refuel(request):
 
     if not form.is_valid():
         messages.error(request, _("Invalid form data"))
+        return HttpResponseRedirect(reverse("fbomatic:index"))
 
-    pump = Pump.objects.first()
     quantity = form.cleaned_data["quantity"]
 
-    if pump.remaining < quantity:
-        messages.error(request, _("Not enough fuel in the pump"))
-    else:
-        # TODO mail
+    with transaction.atomic():
+        pump = Pump.objects.first()
 
-        with transaction.atomic(), reversion.create_revision():
-            Pump.objects.filter(pk=pump.pk).update(remaining=F("remaining") - quantity, counter=F("counter") + quantity)
-            pump.refresh_from_db()
+        if pump.remaining < quantity:
+            messages.error(request, _("Not enough fuel in the pump"))
+            return HttpResponseRedirect(reverse("fbomatic:index"))
+
+        with reversion.create_revision():
+            pump.remaining = F("remaining") - quantity
+            pump.counter = F("counter") + quantity
+            pump.save()
 
             Refueling.objects.create(
                 pump=pump,
@@ -131,29 +134,31 @@ def refuel(request):
             reversion.set_user(request.user)
             reversion.set_comment("Refueling operation")
 
-        messages.success(request, _("Refueling recorded"))
+            # TODO mail
 
+    messages.success(request, _("Refueling recorded"))
     return HttpResponseRedirect(reverse("fbomatic:index"))
 
 
 @login_required
 def rollback(request):
-    latest = Refueling.objects.first()
+    with transaction.atomic():
+        latest = Refueling.objects.first()
 
-    if latest is None or latest.user != request.user:
-        messages.error(request, _("Refueling deletion failed"))
-        return HttpResponseRedirect(reverse("fbomatic:index"))
+        if latest is None or latest.user != request.user:
+            messages.error(request, _("Refueling deletion failed"))
+            return HttpResponseRedirect(reverse("fbomatic:index"))
 
-    with transaction.atomic(), reversion.create_revision():
-        Pump.objects.filter(pk=latest.pump.pk).update(
-            remaining=F("remaining") + latest.quantity,
-            counter=F("counter") - latest.quantity,
-        )
+        with reversion.create_revision():
+            Pump.objects.filter(pk=latest.pump.pk).update(
+                remaining=F("remaining") + latest.quantity,
+                counter=F("counter") - latest.quantity,
+            )
 
-        latest.delete()
+            latest.delete()
 
-        reversion.set_user(request.user)
-        reversion.set_comment("Rollback refueling operation")
+            reversion.set_user(request.user)
+            reversion.set_comment("Rollback refueling operation")
 
     messages.success(request, _("Refueling deleted"))
     return HttpResponseRedirect(reverse("fbomatic:index"))
@@ -161,29 +166,32 @@ def rollback(request):
 
 @staff_member_required
 def top_up(request):
-    # TODO mail
-    pump = Pump.objects.first()
+    with transaction.atomic():
+        pump = Pump.objects.first()
 
-    if pump is None or pump.remaining == pump.capacity or Pump.objects.count() > 1:
-        messages.error(request, _("Pump level reset failed"))
-        return HttpResponseRedirect(reverse("fbomatic:index"))
+        if pump is None or pump.remaining == pump.capacity or Pump.objects.count() > 1:
+            messages.error(request, _("Pump level reset failed"))
+            return HttpResponseRedirect(reverse("fbomatic:index"))
 
-    with transaction.atomic(), reversion.create_revision():
-        Refueling.objects.create(
-            pump=pump,
-            user=request.user,
-            aircraft=None,
-            counter=pump.counter,
-            remaining=pump.capacity,
-            quantity=pump.remaining - pump.capacity,
-        )
+        quantity = pump.remaining - pump.capacity
 
-        pump.remaining = pump.capacity
-        pump.save()
+        with reversion.create_revision():
+            Refueling.objects.create(
+                pump=pump,
+                user=request.user,
+                aircraft=None,
+                counter=pump.counter,
+                remaining=pump.capacity,
+                quantity=quantity,
+            )
 
-        reversion.set_user(request.user)
-        reversion.set_comment("Pump level reset")
+            pump.remaining = pump.capacity
+            pump.save()
+
+            reversion.set_user(request.user)
+            reversion.set_comment("Pump level reset")
+
+            # TODO mail
 
     messages.success(request, _("Pump level reset to full"))
-
     return HttpResponseRedirect(reverse("fbomatic:index"))
