@@ -58,13 +58,6 @@ INSTALLED_APPS = [
     "fbomatic",
 ]
 
-BOOTSTRAP5 = {
-    "css_url": "/static/css/bootstrap.min.css",
-    "javascript_url": "/static/js/bootstrap.bundle.min.js",
-    "horizontal_label_class": "col-sm-3",
-    "horizontal_field_class": "col-sm-9",
-}
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -157,6 +150,13 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
+}
+
+BOOTSTRAP5 = {
+    "css_url": f"{STATIC_URL}css/bootstrap.min.css",
+    "javascript_url": f"{STATIC_URL}js/bootstrap.bundle.min.js",
+    "horizontal_label_class": "col-sm-3",
+    "horizontal_field_class": "col-sm-9",
 }
 
 AUTH_USER_MODEL = "cuser.CUser"
