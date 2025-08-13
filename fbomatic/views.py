@@ -131,3 +131,26 @@ def refuel(request):
         messages.success(request, _("Refueling recorded"))
 
     return HttpResponseRedirect(reverse("fbomatic:index"))
+
+
+@login_required
+def rollback(request):
+    latest = Refueling.objects.first()
+
+    if latest is None or latest.user != request.user:
+        messages.error(request, _("Refueling deletion failed"))
+        return HttpResponseRedirect(reverse("fbomatic:index"))
+
+    with transaction.atomic(), reversion.create_revision():
+        Pump.objects.filter(pk=latest.pump.pk).update(
+            remaining=F("remaining") + latest.quantity,
+            counter=F("counter") - latest.quantity,
+        )
+
+        latest.delete()
+
+        reversion.set_user(request.user)
+        reversion.set_comment("Rollback refueling operation")
+
+    messages.success(request, _("Refueling deleted"))
+    return HttpResponseRedirect(reverse("fbomatic:index"))

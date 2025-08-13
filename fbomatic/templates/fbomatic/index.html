@@ -32,9 +32,12 @@
                 {% bootstrap_form fueling_form layout="horizontal" %}
 
                 <div class="d-grid gap-3 d-md-block">
-                    <button type="submit" name="fuel" class="btn btn-primary me-md-3">
+                    <button type="submit" name="fuel" class="btn btn-primary me-md-2">
                         {% translate "Record refueling" %}
                     </button>
+                    {% if refueling_actions.0.user.email == user.email %}
+                        <a href="{% url 'fbomatic:rollback' %}" class="btn btn-danger me-md-2">{% translate "Delete latest" %}</a>
+                    {% endif %}
                     {% if user.is_staff %}
                         <a href="{% url 'admin:index' %}" class="btn btn-warning">{% translate "Administration" %}</a>
                     {% endif %}
