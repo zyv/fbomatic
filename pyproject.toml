@@ -33,7 +33,6 @@ dev = [
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
-VEREINSFLIEGER_APP_KEY = "dummy"
 
 [tool.pytest_env]
 DJANGO_DEBUG = "1"

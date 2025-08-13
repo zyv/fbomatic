@@ -166,7 +166,10 @@ STORAGES = {
 }
 
 AUTH_USER_MODEL = "cuser.CUser"
-VEREINSFLIEGER_APP_KEY = os.environ["VEREINSFLIEGER_APP_KEY"]
+
+VEREINSFLIEGER_APP_KEY = (
+    os.environ["VEREINSFLIEGER_APP_KEY"] if not DEBUG else os.getenv("VEREINSFLIEGER_APP_KEY", "dummy")
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
