@@ -193,7 +193,8 @@ def top_up(request):
             reversion.set_comment("Pump level reset")
 
     send_mail(
-        f"{settings.EMAIL_SUBJECT_PREFIX}Pump filled by {request.user.first_name} {request.user.last_name} ({-quantity} L)",
+        f"{settings.EMAIL_SUBJECT_PREFIX}"
+        f"Pump filled by {request.user.first_name} {request.user.last_name} ({-quantity} L)",
         "",
         settings.NOTIFICATIONS_EMAIL_FROM,
         [settings.NOTIFICATIONS_EMAIL_TO],
