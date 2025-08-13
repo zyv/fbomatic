@@ -6,6 +6,7 @@ from cuser.forms import AuthenticationForm
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -153,4 +154,34 @@ def rollback(request):
         reversion.set_comment("Rollback refueling operation")
 
     messages.success(request, _("Refueling deleted"))
+    return HttpResponseRedirect(reverse("fbomatic:index"))
+
+
+@staff_member_required
+def top_up(request):
+    # TODO mail
+    pump = Pump.objects.first()
+
+    if pump is None or pump.remaining == pump.capacity or Pump.objects.count() > 1:
+        messages.error(request, _("Pump level reset failed"))
+        return HttpResponseRedirect(reverse("fbomatic:index"))
+
+    with transaction.atomic(), reversion.create_revision():
+        Refueling.objects.create(
+            pump=pump,
+            user=request.user,
+            aircraft=None,
+            counter=pump.counter,
+            remaining=pump.capacity,
+            quantity=pump.remaining - pump.capacity,
+        )
+
+        pump.remaining = pump.capacity
+        pump.save()
+
+        reversion.set_user(request.user)
+        reversion.set_comment("Pump level reset")
+
+    messages.success(request, _("Pump level reset to full"))
+
     return HttpResponseRedirect(reverse("fbomatic:index"))

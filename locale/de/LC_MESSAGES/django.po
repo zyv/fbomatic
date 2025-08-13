@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 18:54+0200\n"
+"POT-Creation-Date: 2025-08-13 19:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,25 +26,16 @@ msgstr "Deutsch"
 msgid "English"
 msgstr "Englisch"
 
-#: fbomatic/admin.py:23
-msgid "Reset pump level to full"
-msgstr "Tankwagenstand auf voll zurücksetzen"
-
-#: fbomatic/admin.py:41
-#, python-brace-format
-msgid "{updated} pump level(s) reset to full"
-msgstr "{updated} Tankwagenstand(e) auf voll zurückgesetzt"
-
-#: fbomatic/admin.py:44
+#: fbomatic/admin.py:20
 #, python-brace-format
 msgid "Download last {count} refueling records"
 msgstr "Letzte {count} Tankvorgänge herunterladen"
 
-#: fbomatic/forms.py:8 fbomatic/templates/fbomatic/index.html:55
+#: fbomatic/forms.py:8 fbomatic/templates/fbomatic/index.html:62
 msgid "Registration"
 msgstr "Kennzeichen"
 
-#: fbomatic/forms.py:9 fbomatic/templates/fbomatic/index.html:57
+#: fbomatic/forms.py:9 fbomatic/templates/fbomatic/index.html:64
 msgid "Quantity"
 msgstr "Menge"
 
@@ -53,12 +44,12 @@ msgid "Language"
 msgstr "Sprache"
 
 #: fbomatic/templates/fbomatic/index.html:10
-#: fbomatic/templates/fbomatic/index.html:56
+#: fbomatic/templates/fbomatic/index.html:63
 msgid "Remaining"
 msgstr "Vorrat"
 
 #: fbomatic/templates/fbomatic/index.html:11
-#: fbomatic/templates/fbomatic/index.html:58
+#: fbomatic/templates/fbomatic/index.html:65
 msgid "Counter"
 msgstr "Zählerstand"
 
@@ -74,23 +65,27 @@ msgstr "Hallo"
 msgid "Record refueling"
 msgstr "Tankvorgang erfassen"
 
-#: fbomatic/templates/fbomatic/index.html:39
+#: fbomatic/templates/fbomatic/index.html:40
 msgid "Delete latest"
 msgstr "Letzten Eintrag löschen"
 
-#: fbomatic/templates/fbomatic/index.html:42
+#: fbomatic/templates/fbomatic/index.html:46
+msgid "Record top-up"
+msgstr "Tankwagen aufgefüllt"
+
+#: fbomatic/templates/fbomatic/index.html:49
 msgid "Administration"
 msgstr "Verwaltung"
 
-#: fbomatic/templates/fbomatic/index.html:53
+#: fbomatic/templates/fbomatic/index.html:60
 msgid "Date"
 msgstr "Datum"
 
-#: fbomatic/templates/fbomatic/index.html:54
+#: fbomatic/templates/fbomatic/index.html:61
 msgid "Mitglied"
 msgstr "Member"
 
-#: fbomatic/templates/fbomatic/index.html:81
+#: fbomatic/templates/fbomatic/index.html:88
 msgid "Log out"
 msgstr ""
 
@@ -98,27 +93,36 @@ msgstr ""
 msgid "Pump refilled"
 msgstr "Tankwagen nachgefüllt"
 
-#: fbomatic/views.py:50
-#, fuzzy, python-brace-format
+# python-brace-format
+#: fbomatic/views.py:51
+#, python-brace-format
 msgid "Last {count} fueling actions"
 msgstr "Letzte {count} Tankvorgänge"
 
-#: fbomatic/views.py:94 fbomatic/views.py:105
+#: fbomatic/views.py:95 fbomatic/views.py:106
 msgid "Invalid form data"
 msgstr "Ungültige Angaben"
 
-#: fbomatic/views.py:111
+#: fbomatic/views.py:112
 msgid "Not enough fuel in the pump"
 msgstr "Nicht genügend Kraftstoff"
 
-#: fbomatic/views.py:131
+#: fbomatic/views.py:132
 msgid "Refueling recorded"
 msgstr "Tankvorgang erfasst"
 
-#: fbomatic/views.py:141
+#: fbomatic/views.py:142
 msgid "Refueling deletion failed"
 msgstr "Löschen des Tankvorgangs ist fehlgeschlagen"
 
-#: fbomatic/views.py:155
+#: fbomatic/views.py:156
 msgid "Refueling deleted"
 msgstr "Tankvorgang gelöscht"
+
+#: fbomatic/views.py:166
+msgid "Pump level reset failed"
+msgstr "Nachfüllen des Tankwagens ist fehlgeschlagen"
+
+#: fbomatic/views.py:185
+msgid "Pump level reset to full"
+msgstr "Kraftstoffvorrat wurde auf „voll” zurückgesetzt"

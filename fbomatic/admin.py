@@ -1,9 +1,6 @@
 import csv
 
-import reversion
-from django.contrib import admin, messages
-from django.db import transaction
-from django.db.models import F
+from django.contrib import admin
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -18,27 +15,6 @@ FUELING_RECORDS_LIMIT = 500
 @admin.register(Aircraft)
 class AircraftAdmin(VersionAdmin):
     pass
-
-
-@admin.action(description=_("Reset pump level to full"))
-def reset_level(self, request, queryset):
-    # TODO mail
-    with transaction.atomic(), reversion.create_revision():
-        for pump in queryset:
-            Refueling.objects.create(
-                pump=pump,
-                user=request.user,
-                aircraft=None,
-                counter=pump.counter,
-                remaining=pump.capacity,
-                quantity=pump.remaining - pump.capacity,
-            )
-        updated = queryset.update(remaining=F("capacity"))
-
-        reversion.set_user(request.user)
-        reversion.set_comment("Pump level reset")
-
-    self.message_user(request, _("{updated} pump level(s) reset to full").format(updated=updated), messages.SUCCESS)
 
 
 @admin.action(description=_("Download last {count} refueling records").format(count=FUELING_RECORDS_LIMIT))
@@ -70,7 +46,7 @@ def download_records(self, request, queryset):
 @admin.register(Pump)
 class PumpAdmin(VersionAdmin):
     list_display = ("name", "capacity", "counter", "remaining")
-    actions = (reset_level, download_records)
+    actions = (download_records,)
 
 
 @admin.register(Refueling)

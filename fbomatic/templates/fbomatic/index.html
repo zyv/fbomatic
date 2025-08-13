@@ -36,9 +36,16 @@
                         {% translate "Record refueling" %}
                     </button>
                     {% if refueling_actions.0.user.email == user.email %}
-                        <a href="{% url 'fbomatic:rollback' %}" class="btn btn-danger me-md-2">{% translate "Delete latest" %}</a>
+                        <a href="{% url 'fbomatic:rollback' %}" class="btn btn-danger me-md-2">
+                            {% translate "Delete latest" %}
+                        </a>
                     {% endif %}
                     {% if user.is_staff %}
+                        {% if pump.remaining < pump.capacity %}
+                            <a href="{% url 'fbomatic:top-up' %}" class="btn btn-info me-md-2">
+                                {% translate "Record top-up" %}
+                            </a>
+                        {% endif %}
                         <a href="{% url 'admin:index' %}" class="btn btn-warning">{% translate "Administration" %}</a>
                     {% endif %}
                 </div>
