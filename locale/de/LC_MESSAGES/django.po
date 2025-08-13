@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 19:30+0200\n"
+"POT-Creation-Date: 2025-08-13 20:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: config/settings.py:142
+#: config/settings.py:131
 msgid "German"
 msgstr "Deutsch"
 
-#: config/settings.py:143
+#: config/settings.py:132
 msgid "English"
 msgstr "Englisch"
 
@@ -31,61 +30,61 @@ msgstr "Englisch"
 msgid "Download last {count} refueling records"
 msgstr "Letzte {count} Tankvorgänge herunterladen"
 
-#: fbomatic/forms.py:8 fbomatic/templates/fbomatic/index.html:62
+#: fbomatic/forms.py:8 fbomatic/templates/fbomatic/index.html:63
 msgid "Registration"
 msgstr "Kennzeichen"
 
-#: fbomatic/forms.py:9 fbomatic/templates/fbomatic/index.html:64
+#: fbomatic/forms.py:9 fbomatic/templates/fbomatic/index.html:65
 msgid "Quantity"
 msgstr "Menge"
 
-#: fbomatic/templates/fbomatic/base.html:81
+#: fbomatic/templates/fbomatic/base.html:87
 msgid "Language"
 msgstr "Sprache"
 
-#: fbomatic/templates/fbomatic/index.html:10
-#: fbomatic/templates/fbomatic/index.html:63
+#: fbomatic/templates/fbomatic/index.html:11
+#: fbomatic/templates/fbomatic/index.html:64
 msgid "Remaining"
 msgstr "Vorrat"
 
-#: fbomatic/templates/fbomatic/index.html:11
-#: fbomatic/templates/fbomatic/index.html:65
+#: fbomatic/templates/fbomatic/index.html:12
+#: fbomatic/templates/fbomatic/index.html:66
 msgid "Counter"
 msgstr "Zählerstand"
 
-#: fbomatic/templates/fbomatic/index.html:21
+#: fbomatic/templates/fbomatic/index.html:22
 msgid "Log in"
 msgstr ""
 
-#: fbomatic/templates/fbomatic/index.html:27
+#: fbomatic/templates/fbomatic/index.html:28
 msgid "Hello"
 msgstr "Hallo"
 
-#: fbomatic/templates/fbomatic/index.html:36
+#: fbomatic/templates/fbomatic/index.html:37
 msgid "Record refueling"
 msgstr "Tankvorgang erfassen"
 
-#: fbomatic/templates/fbomatic/index.html:40
+#: fbomatic/templates/fbomatic/index.html:41
 msgid "Delete latest"
 msgstr "Letzten Eintrag löschen"
 
-#: fbomatic/templates/fbomatic/index.html:46
+#: fbomatic/templates/fbomatic/index.html:47
 msgid "Record top-up"
 msgstr "Tankwagen aufgefüllt"
 
-#: fbomatic/templates/fbomatic/index.html:49
+#: fbomatic/templates/fbomatic/index.html:50
 msgid "Administration"
 msgstr "Verwaltung"
 
-#: fbomatic/templates/fbomatic/index.html:60
+#: fbomatic/templates/fbomatic/index.html:61
 msgid "Date"
 msgstr "Datum"
 
-#: fbomatic/templates/fbomatic/index.html:61
-msgid "Mitglied"
-msgstr "Member"
+#: fbomatic/templates/fbomatic/index.html:62
+msgid "Name"
+msgstr "Name"
 
-#: fbomatic/templates/fbomatic/index.html:88
+#: fbomatic/templates/fbomatic/index.html:89
 msgid "Log out"
 msgstr ""
 
@@ -94,35 +93,35 @@ msgid "Pump refilled"
 msgstr "Tankwagen nachgefüllt"
 
 # python-brace-format
-#: fbomatic/views.py:51
+#: fbomatic/views.py:52
 #, python-brace-format
 msgid "Last {count} fueling actions"
 msgstr "Letzte {count} Tankvorgänge"
 
-#: fbomatic/views.py:95 fbomatic/views.py:106
+#: fbomatic/views.py:97 fbomatic/views.py:108
 msgid "Invalid form data"
 msgstr "Ungültige Angaben"
 
-#: fbomatic/views.py:112
+#: fbomatic/views.py:114
 msgid "Not enough fuel in the pump"
 msgstr "Nicht genügend Kraftstoff"
 
-#: fbomatic/views.py:132
+#: fbomatic/views.py:134
 msgid "Refueling recorded"
 msgstr "Tankvorgang erfasst"
 
-#: fbomatic/views.py:142
+#: fbomatic/views.py:144
 msgid "Refueling deletion failed"
 msgstr "Löschen des Tankvorgangs ist fehlgeschlagen"
 
-#: fbomatic/views.py:156
+#: fbomatic/views.py:158
 msgid "Refueling deleted"
 msgstr "Tankvorgang gelöscht"
 
-#: fbomatic/views.py:166
+#: fbomatic/views.py:168
 msgid "Pump level reset failed"
 msgstr "Nachfüllen des Tankwagens ist fehlgeschlagen"
 
-#: fbomatic/views.py:185
+#: fbomatic/views.py:187
 msgid "Pump level reset to full"
 msgstr "Kraftstoffvorrat wurde auf „voll” zurückgesetzt"
