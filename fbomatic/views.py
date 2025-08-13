@@ -34,6 +34,7 @@ def index(request):
         fueling_form: forms.Form
         refueling_actions: QuerySet[Refueling]
         actions_caption: str
+        refueling_threshold: int
 
     pump = Pump.objects.first()
     refueling_actions = Refueling.objects.filter(pump=pump)[:REFUELING_RECORDS_LIMIT]
@@ -49,6 +50,7 @@ def index(request):
                     fueling_form=FuelingForm(),
                     refueling_actions=refueling_actions,
                     actions_caption=_("Last {count} fueling actions").format(count=REFUELING_RECORDS_LIMIT),
+                    refueling_threshold=settings.REFUELING_THRESHOLD_LITERS,
                 )
             )
         ),

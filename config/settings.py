@@ -165,6 +165,8 @@ VEREINSFLIEGER_APP_KEY = (
     os.environ["VEREINSFLIEGER_APP_KEY"] if not DEBUG else os.getenv("VEREINSFLIEGER_APP_KEY", "dummy")
 )
 
+REFUELING_THRESHOLD_LITERS = 50
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
