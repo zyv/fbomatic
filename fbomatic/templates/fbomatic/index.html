@@ -19,7 +19,9 @@
             <form action="{% url 'fbomatic:login' %}" method="post">
                 {% csrf_token %}
                 {% bootstrap_form auth_form layout="horizontal" %}
-                <button type="submit" class="btn btn-primary">{% translate "Log in" %}</button>
+                <button type="submit" class="btn btn-primary" data-testid="button-log-in">
+                    {% translate "Log in" %}
+                </button>
             </form>
         </div>
 
@@ -33,12 +35,13 @@
                 {% bootstrap_form fueling_form layout="horizontal" %}
 
                 <div class="d-grid gap-3 d-md-block">
-                    <button type="submit" class="btn btn-primary me-md-2">
+                    <button type="submit" class="btn btn-primary me-md-2" data-testid="button-record-fueling">
                         {% translate "Record refueling" %}
                     </button>
 
                     {% if refueling_actions.0.user.email == user.email or user.is_staff %}
-                        <a href="{% url 'fbomatic:rollback' %}" class="btn btn-danger me-md-2">
+                        <a href="{% url 'fbomatic:rollback' %}" class="btn btn-danger me-md-2"
+                           data-testid="button-rollback">
                             {% translate "Delete latest" %}
                         </a>
                     {% endif %}
@@ -84,7 +87,9 @@
                     <form action="{% url 'fbomatic:top-up' %}" method="post">
                         {% csrf_token %}
                         {% bootstrap_form top_up_form layout="horizontal" %}
-                        <button type="submit" class="btn btn-info">{% translate "Record top-up" %}</button>
+                        <button type="submit" class="btn btn-info" data-testid="record-top-up">
+                            {% translate "Record top-up" %}
+                        </button>
                     </form>
                 </div>
             {% endif %}
@@ -96,11 +101,15 @@
                 <input type="hidden" name="next" value="{% url 'fbomatic:index' %}">
 
                 {% if user.is_superuser %}
-                    <a href="{% url 'admin:index' %}"
-                       class="btn btn-warning me-md-2">{% translate "Administration" %}</a>
+                    <a href="{% url 'admin:index' %}" class="btn btn-warning me-md-2"
+                       data-testid="button-administration">
+                        {% translate "Administration" %}
+                    </a>
                 {% endif %}
 
-                <button type="submit" class="btn btn-secondary me-md-2">{% translate 'Log out' %}</button>
+                <button type="submit" class="btn btn-secondary me-md-2" data-testid="button-log-out">
+                    {% translate 'Log out' %}
+                </button>
             </form>
         </div>
 

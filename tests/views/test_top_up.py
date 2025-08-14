@@ -1,0 +1,49 @@
+from decimal import Decimal
+
+import pytest
+from django.contrib import messages
+from django.core import mail
+from django.urls import reverse
+
+from fbomatic.models import Refueling
+from tests.conftest import assert_last_redirect, assert_message
+from tests.views.conftest import TEST_PASSWORD
+
+pytestmark = pytest.mark.django_db
+
+
+def test_top_up_success(test_client, db_pump, staff_user):
+    counter_before_top_up, remaining_before_top_up = db_pump.counter, db_pump.remaining
+
+    assert test_client.login(email=staff_user.email, password=TEST_PASSWORD)
+    response = test_client.post(
+        reverse("fbomatic:top-up"),
+        data={"quantity": 100, "price": Decimal("2.000")},
+        follow=True,
+    )
+    assert_last_redirect(response, reverse("fbomatic:index"))
+    assert_message(response, messages.SUCCESS)
+
+    db_pump.refresh_from_db()
+    assert db_pump.remaining == remaining_before_top_up + 100
+    assert db_pump.counter == counter_before_top_up
+
+    record = Refueling.objects.first()
+    assert record.pump == db_pump
+    assert record.user == staff_user
+    assert record.aircraft is None
+    assert record.counter == counter_before_top_up
+    assert record.quantity == -100
+    assert record.price == Decimal("2.000")
+
+    assert len(mail.outbox) == 1
+
+
+def test_top_up_failure(test_client, db_pump, normal_user):
+    assert test_client.login(email=normal_user.email, password=TEST_PASSWORD)
+    response = test_client.post(
+        reverse("fbomatic:top-up"),
+        data={"quantity": 100, "price": Decimal("2.000")},
+        follow=True,
+    )
+    assert_last_redirect(response, reverse("admin:login") + "?next=" + reverse("fbomatic:top-up"))
