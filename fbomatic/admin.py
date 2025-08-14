@@ -25,16 +25,13 @@ def download_records(self, request, queryset):
     response["Content-Disposition"] = f'attachment; filename="refueling-{timezone.now().date().isoformat()}.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(
-        ("timestamp", "type", "counter", "remaining", "quantity", "price", "email", "first_name", "last_name")
-    )
+    writer.writerow(("timestamp", "type", "counter", "quantity", "price", "email", "first_name", "last_name"))
     for record in refueling:
         writer.writerow(
             (
                 record.timestamp.isoformat(),
                 refueling_type(record.aircraft),
                 record.counter,
-                record.remaining,
                 record.quantity,
                 record.price,
                 record.user.email,
@@ -54,4 +51,4 @@ class PumpAdmin(VersionAdmin):
 
 @admin.register(Refueling)
 class RefuelingAdmin(VersionAdmin):
-    list_display = ("timestamp", "user", "aircraft", "quantity", "counter", "remaining")
+    list_display = ("timestamp", "user", "aircraft", "quantity", "counter")

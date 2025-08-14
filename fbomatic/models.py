@@ -33,7 +33,6 @@ class Refueling(models.Model):
     aircraft = models.ForeignKey(Aircraft, blank=True, null=True, on_delete=models.PROTECT)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True)
     counter = models.PositiveIntegerField()
-    remaining = models.PositiveIntegerField()
     quantity = models.IntegerField()
 
     price = models.DecimalField(

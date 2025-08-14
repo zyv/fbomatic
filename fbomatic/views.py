@@ -132,7 +132,6 @@ def refuel(request):
                 user=request.user,
                 aircraft=form.cleaned_data["aircraft"],
                 counter=pump.counter,
-                remaining=pump.remaining,
                 quantity=quantity,
             )
 
@@ -194,7 +193,6 @@ def top_up(request):
                 user=request.user,
                 aircraft=None,
                 counter=pump.counter,
-                remaining=pump.remaining,
                 quantity=-quantity,
                 price=price,
             )
