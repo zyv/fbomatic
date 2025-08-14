@@ -8,8 +8,8 @@
     <div class="alert alert-{% if pump.remaining > refueling_threshold %}primary{% else %}danger{% endif %} mt-3 pb-0"
          role="alert">
         <ul>
+            <li class="fw-bold">{% translate "Counter" %}: {{ pump.counter }}</li>
             <li>{% translate "Remaining" %}: {{ pump.remaining }} / {{ pump.capacity }} L</li>
-            <li>{% translate "Counter" %}: {{ pump.counter }} L</li>
         </ul>
     </div>
 
