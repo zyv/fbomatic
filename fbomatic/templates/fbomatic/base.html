@@ -47,20 +47,18 @@
     function disableButtons() {
         setTimeout(function () {
             $("form button").prop("disabled", true)
-            $("a.btn").addClass("disabled");
         });
     }
 
     $(document).ready(function () {
         $("form").on("submit", disableButtons);
-        $("a.btn").on("click", disableButtons);
-
-        $(".form-apply-select2 select").select2({theme: "bootstrap-5"});
 
         $("#languageForm").on("change", function () {
             $(this).off("change");
             $(this).parents("form:first").submit();
         });
+
+        $(".form-apply-select2 select").select2({theme: "bootstrap-5"});
     });
 </script>
 

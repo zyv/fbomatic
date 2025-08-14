@@ -91,4 +91,15 @@
 
     {% endif %}
 
+    <script>
+        $(document).ready(function () {
+            $(".btn-danger").on("click", function (event) {
+                const userResponse = window.confirm('{% translate "Are you sure you want to proceed?" %}');
+                if (!userResponse) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

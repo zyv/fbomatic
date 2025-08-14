@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 20:15+0200\n"
+"POT-Creation-Date: 2025-08-14 07:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgstr "Kennzeichen"
 msgid "Quantity"
 msgstr "Menge"
 
-#: fbomatic/templates/fbomatic/base.html:87
+#: fbomatic/templates/fbomatic/base.html:85
 msgid "Language"
 msgstr "Sprache"
 
@@ -88,40 +88,43 @@ msgstr "Name"
 msgid "Log out"
 msgstr ""
 
+#: fbomatic/templates/fbomatic/index.html:97
+msgid "Are you sure you want to proceed?"
+msgstr "Möchten Sie wirklich fortfahren?"
+
 #: fbomatic/templatetags/fbomatic_utils.py:11
 msgid "Pump refilled"
 msgstr "Tankwagen nachgefüllt"
 
-# python-brace-format
-#: fbomatic/views.py:52
+#: fbomatic/views.py:53
 #, python-brace-format
 msgid "Last {count} fueling actions"
 msgstr "Letzte {count} Tankvorgänge"
 
-#: fbomatic/views.py:97 fbomatic/views.py:108
+#: fbomatic/views.py:98 fbomatic/views.py:109
 msgid "Invalid form data"
 msgstr "Ungültige Angaben"
 
-#: fbomatic/views.py:114
+#: fbomatic/views.py:118
 msgid "Not enough fuel in the pump"
 msgstr "Nicht genügend Kraftstoff"
 
-#: fbomatic/views.py:134
+#: fbomatic/views.py:140
 msgid "Refueling recorded"
 msgstr "Tankvorgang erfasst"
 
-#: fbomatic/views.py:144
+#: fbomatic/views.py:150
 msgid "Refueling deletion failed"
 msgstr "Löschen des Tankvorgangs ist fehlgeschlagen"
 
-#: fbomatic/views.py:158
+#: fbomatic/views.py:164
 msgid "Refueling deleted"
 msgstr "Tankvorgang gelöscht"
 
-#: fbomatic/views.py:168
+#: fbomatic/views.py:174
 msgid "Pump level reset failed"
 msgstr "Nachfüllen des Tankwagens ist fehlgeschlagen"
 
-#: fbomatic/views.py:187
+#: fbomatic/views.py:203
 msgid "Pump level reset to full"
 msgstr "Kraftstoffvorrat wurde auf „voll” zurückgesetzt"
