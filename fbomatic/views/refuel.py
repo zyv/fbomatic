@@ -1,8 +1,10 @@
 import logging
 
 import reversion
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.db import transaction
 from django.db.models import F
 from django.http import HttpResponseRedirect
@@ -32,6 +34,8 @@ def refuel(request):
             messages.error(request, _("Not enough fuel in the pump"))
             return HttpResponseRedirect(reverse("fbomatic:index"))
 
+        pump_remaining_before = pump.remaining
+
         with reversion.create_revision():
             pump.remaining = F("remaining") - quantity
             pump.counter = F("counter") + quantity
@@ -50,7 +54,17 @@ def refuel(request):
             reversion.set_user(request.user)
             reversion.set_comment("Refueling operation")
 
-            # TODO mail
+    if (
+        pump.remaining < settings.REFUELING_THRESHOLD_LITERS
+        and pump_remaining_before >= settings.REFUELING_THRESHOLD_LITERS
+    ):
+        send_mail(
+            f"{settings.EMAIL_SUBJECT_PREFIX}"
+            f"Please refill, remaining fuel {pump.remaining} L < {settings.REFUELING_THRESHOLD_LITERS} L",
+            settings.EMAIL_CONTENTS,
+            settings.NOTIFICATIONS_EMAIL_FROM,
+            [settings.NOTIFICATIONS_EMAIL_TO],
+        )
 
     messages.success(request, _("Refueling recorded"))
     return HttpResponseRedirect(reverse("fbomatic:index"))

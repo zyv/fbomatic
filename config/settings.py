@@ -169,6 +169,7 @@ REFUELING_THRESHOLD_LITERS = 50
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_SUBJECT_PREFIX = "[fbomatic] "
+EMAIL_CONTENTS = "Greetings from fbomatic!"
 
 NOTIFICATIONS_EMAIL_FROM = os.getenv("NOTIFICATIONS_EMAIL_FROM", "no-reply@localhost")
 NOTIFICATIONS_EMAIL_TO = os.getenv("NOTIFICATIONS_EMAIL_FROM", "fbo@localhost")

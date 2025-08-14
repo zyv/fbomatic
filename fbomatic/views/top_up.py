@@ -52,7 +52,7 @@ def top_up(request):
     send_mail(
         f"{settings.EMAIL_SUBJECT_PREFIX}"
         f"Pump topped-up by {request.user.first_name} {request.user.last_name} ({quantity} L)",
-        "",
+        settings.EMAIL_CONTENTS,
         settings.NOTIFICATIONS_EMAIL_FROM,
         [settings.NOTIFICATIONS_EMAIL_TO],
     )
