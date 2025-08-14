@@ -167,12 +167,16 @@ VEREINSFLIEGER_APP_KEY = (
 
 REFUELING_THRESHOLD_LITERS = 50
 
+ADMINS = [("", email) for email in os.getenv("DJANGO_ADMINS", "").split(",")]
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_SUBJECT_PREFIX = "[fbomatic] "
 EMAIL_CONTENTS = "Greetings from fbomatic!"
 
 NOTIFICATIONS_EMAIL_FROM = os.getenv("NOTIFICATIONS_EMAIL_FROM", "no-reply@localhost")
 NOTIFICATIONS_EMAIL_TO = os.getenv("NOTIFICATIONS_EMAIL_FROM", "fbo@localhost")
+
+SERVER_EMAIL = NOTIFICATIONS_EMAIL_FROM
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
