@@ -123,6 +123,8 @@ def refuel(request):
             pump.counter = F("counter") + quantity
             pump.save()
 
+            pump.refresh_from_db()
+
             Refueling.objects.create(
                 pump=pump,
                 user=request.user,
@@ -151,10 +153,9 @@ def rollback(request):
             return HttpResponseRedirect(reverse("fbomatic:index"))
 
         with reversion.create_revision():
-            Pump.objects.filter(pk=latest.pump.pk).update(
-                remaining=F("remaining") + latest.quantity,
-                counter=F("counter") - latest.quantity,
-            )
+            latest.pump.remaining = F("remaining") + latest.quantity
+            latest.pump.counter = F("counter") - latest.quantity
+            latest.pump.save()
 
             latest.delete()
 
