@@ -1,12 +1,16 @@
 from django.urls import path
 
-from . import views
+from fbomatic.views.index import index
+from fbomatic.views.perform_login import perform_login
+from fbomatic.views.refuel import refuel
+from fbomatic.views.rollback import rollback
+from fbomatic.views.top_up import top_up
 
 app_name = "fbomatic"
 urlpatterns = (
-    path("", views.index, name="index"),
-    path("rollback/", views.rollback, name="rollback"),
-    path("refuel/", views.refuel, name="refuel"),
-    path("top-up/", views.top_up, name="top-up"),
-    path("login/", views.perform_login, name="login"),
+    path("", index, name="index"),
+    path("rollback/", rollback, name="rollback"),
+    path("refuel/", refuel, name="refuel"),
+    path("top-up/", top_up, name="top-up"),
+    path("login/", perform_login, name="login"),
 )
