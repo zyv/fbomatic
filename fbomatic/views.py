@@ -150,7 +150,7 @@ def rollback(request):
     with transaction.atomic():
         latest = Refueling.objects.first()
 
-        if latest is None or latest.user != request.user:
+        if latest is None or latest.user != request.user or not request.user.is_staff:
             messages.error(request, _("Refueling deletion failed"))
             return HttpResponseRedirect(reverse("fbomatic:index"))
 

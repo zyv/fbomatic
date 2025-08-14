@@ -37,7 +37,7 @@
                         {% translate "Record refueling" %}
                     </button>
 
-                    {% if refueling_actions.0.user.email == user.email %}
+                    {% if refueling_actions.0.user.email == user.email or user.is_staff %}
                         <a href="{% url 'fbomatic:rollback' %}" class="btn btn-danger me-md-2">
                             {% translate "Delete latest" %}
                         </a>
