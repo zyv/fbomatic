@@ -54,7 +54,6 @@
                     <th scope="col">{% translate "Date" %}</th>
                     <th scope="col">{% translate "Name" %}</th>
                     <th scope="col">{% translate "Registration" %}</th>
-                    <th scope="col">{% translate "Remaining" %}</th>
                     <th scope="col">{% translate "Quantity" %}</th>
                     <th scope="col">{% translate "Counter" %}</th>
                 </tr>
@@ -67,8 +66,11 @@
                             <abbr title="{{ action.user.first_name }} {{ action.user.last_name }}">{{ action.user.first_name.0 }}. {{ action.user.last_name }}</abbr>
                         </td>
                         <td>{{ action.aircraft | refueling_type }}</td>
-                        <td>{{ action.remaining }}&nbsp;L</td>
-                        <td>{{ action.quantity }}&nbsp;L</td>
+                        <td>
+                            {% if action.price %}<abbr title="{% translate "Price" %}: {{ action.price }}">{% endif %}
+                            {{ action.quantity }}&nbsp;L
+                            {% if action.price %}</abbr>{% endif %}
+                        </td>
                         <td>{{ action.counter }}&nbsp;L</td>
                     </tr>
                 {% endfor %}
