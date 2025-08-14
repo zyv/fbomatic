@@ -8,50 +8,52 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from fbomatic.vereinsflieger import VereinsfliegerApiSession
+from fbomatic.vereinsflieger import VereinsfliegerApiSession, VereinsfliegerError
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
 def perform_login(request):
-    def get_form():
-        return AuthenticationForm(data=request.POST)
+    # First attempt
+    form = AuthenticationForm(data=request.POST)
+    if form.is_valid():
+        login(request, form.get_user())
+        return HttpResponseRedirect(reverse("fbomatic:index"))
 
-    form = get_form()
-    if not form.is_valid():
-        email, password = form.cleaned_data["email"], form.cleaned_data["password"]
+    # Try to import/update user from Vereinsflieger
+    email, password = form.cleaned_data["email"], form.cleaned_data["password"]
 
-        if email and password:
-            email = email.lower()
+    if not email or not password:
+        messages.error(request, _("Invalid form data"))
+        return HttpResponseRedirect(reverse("fbomatic:index"))
 
-            with VereinsfliegerApiSession(
-                app_key=settings.VEREINSFLIEGER_APP_KEY,
-                username=email,
-                password=password,
-            ) as vs:
-                vf_user = vs.get_user()
+    email = email.lower()
 
-            logger.warning(f"Importing/updating user from Vereinsflieger: {vf_user}")
+    try:
+        with VereinsfliegerApiSession(
+            app_key=settings.VEREINSFLIEGER_APP_KEY,
+            username=email,
+            password=password,
+        ) as vs:
+            vf_user = vs.get_user()
+    except VereinsfliegerError:
+        messages.error(request, _("Invalid form data"))
+        return HttpResponseRedirect(reverse("fbomatic:index"))
 
-            try:
-                user = User.objects.get(email=email)
-            except User.DoesNotExist:
-                User.objects.create_user(
-                    email,
-                    password,
-                    first_name=vf_user.firstname,
-                    last_name=vf_user.lastname,
-                )
-            else:
-                user.set_password(password)
-                user.first_name = vf_user.firstname
-                user.last_name = vf_user.lastname
-                user.save()
+    logger.warning(f"Importing/updating user from Vereinsflieger: {vf_user}")
 
-        form = get_form()
-        if not form.is_valid():
-            messages.error(request, _("Invalid form data"))
+    user, _created = User.objects.get_or_create(email=email)
+    user.set_password(password)
+    user.first_name = vf_user.firstname
+    user.last_name = vf_user.lastname
+    user.save()
 
-    login(request, form.get_user())
+    # Second attempt
+    form = AuthenticationForm(data=request.POST)
+    if form.is_valid():
+        login(request, form.get_user())
+    else:
+        messages.error(request, _("Invalid form data"))
+
     return HttpResponseRedirect(reverse("fbomatic:index"))
