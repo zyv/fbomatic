@@ -25,7 +25,9 @@ def download_records(self, request, queryset):
     response["Content-Disposition"] = f'attachment; filename="refueling-{timezone.now().date().isoformat()}.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(("timestamp", "type", "counter", "remaining", "quantity", "email", "first_name", "last_name"))
+    writer.writerow(
+        ("timestamp", "type", "counter", "remaining", "quantity", "price", "email", "first_name", "last_name")
+    )
     for record in refueling:
         writer.writerow(
             (
@@ -34,6 +36,7 @@ def download_records(self, request, queryset):
                 record.counter,
                 record.remaining,
                 record.quantity,
+                record.price,
                 record.user.email,
                 record.user.first_name,
                 record.user.last_name,

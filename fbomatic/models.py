@@ -1,6 +1,9 @@
+from decimal import Decimal
+
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import CheckConstraint, Q
 
 
 class Aircraft(models.Model):
@@ -33,8 +36,21 @@ class Refueling(models.Model):
     remaining = models.PositiveIntegerField()
     quantity = models.IntegerField()
 
+    price = models.DecimalField(
+        max_digits=5,
+        decimal_places=3,
+        validators=[MinValueValidator(Decimal("1"))],
+        blank=True,
+        null=True,
+    )
+
     def __str__(self):
         return f"Refueling(timestamp={self.timestamp.date().isoformat()}, user={self.user})"
 
     class Meta:
         ordering = ("-timestamp",)
+        constraints = (
+            CheckConstraint(
+                condition=Q(price__isnull=True) | (Q(aircraft__isnull=True) & Q(quantity__lt=0)), name="give_or_take"
+            ),
+        )

@@ -8,6 +8,7 @@ class FuelingForm(forms.Form):
     aircraft = forms.ModelChoiceField(label=_("Registration"), queryset=Aircraft.objects.all())
     quantity = forms.IntegerField(label=_("Quantity"), min_value=1)
 
-    # todo remove
-    # def is_valid(self):
-    #     return False
+
+class TopUpForm(forms.Form):
+    quantity = forms.IntegerField(label=_("Quantity"), min_value=1)
+    price = forms.DecimalField(label=_("Price"), min_value=1)

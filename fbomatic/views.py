@@ -17,7 +17,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from fbomatic.forms import FuelingForm
+from fbomatic.forms import FuelingForm, TopUpForm
 from fbomatic.models import Pump, Refueling
 from fbomatic.vereinsflieger import VereinsfliegerApiSession
 
@@ -33,6 +33,7 @@ def index(request):
         pump: Pump
         auth_form: forms.Form
         fueling_form: forms.Form
+        top_up_form: forms.Form
         refueling_actions: QuerySet[Refueling]
         actions_caption: str
         refueling_threshold: int
@@ -49,6 +50,7 @@ def index(request):
                     pump=pump,
                     auth_form=AuthenticationForm(),
                     fueling_form=FuelingForm(),
+                    top_up_form=TopUpForm(),
                     refueling_actions=refueling_actions,
                     actions_caption=_("Last {count} fueling actions").format(count=REFUELING_RECORDS_LIMIT),
                     refueling_threshold=settings.REFUELING_THRESHOLD_LITERS,
@@ -168,38 +170,45 @@ def rollback(request):
 
 @staff_member_required
 def top_up(request):
+    form = TopUpForm(request.POST)
+
+    if not form.is_valid():
+        messages.error(request, _("Invalid form data"))
+        return HttpResponseRedirect(reverse("fbomatic:index"))
+
+    quantity, price = form.cleaned_data["quantity"], form.cleaned_data["price"]
+
     with transaction.atomic():
         pump = Pump.objects.first()
 
-        if pump is None or pump.remaining == pump.capacity or Pump.objects.count() > 1:
-            messages.error(request, _("Pump level reset failed"))
+        if pump is None or pump.remaining + quantity > pump.capacity or Pump.objects.count() > 1:
+            messages.error(request, _("Invalid form data"))
             return HttpResponseRedirect(reverse("fbomatic:index"))
 
-        quantity = pump.remaining - pump.capacity
-
         with reversion.create_revision():
+            pump.remaining += quantity
+            pump.save()
+
             Refueling.objects.create(
                 pump=pump,
                 user=request.user,
                 aircraft=None,
                 counter=pump.counter,
-                remaining=pump.capacity,
-                quantity=quantity,
+                remaining=pump.remaining,
+                quantity=-quantity,
+                price=price,
             )
 
-            pump.remaining = pump.capacity
-            pump.save()
-
             reversion.set_user(request.user)
-            reversion.set_comment("Pump level reset")
+            reversion.set_comment("Pump top-up operation")
 
     send_mail(
         f"{settings.EMAIL_SUBJECT_PREFIX}"
-        f"Pump filled by {request.user.first_name} {request.user.last_name} ({-quantity} L)",
+        f"Pump topped-up by {request.user.first_name} {request.user.last_name} ({quantity} L)",
         "",
         settings.NOTIFICATIONS_EMAIL_FROM,
         [settings.NOTIFICATIONS_EMAIL_TO],
     )
 
-    messages.success(request, _("Pump level reset to full"))
+    messages.success(request, _("Pump top-up recorded"))
     return HttpResponseRedirect(reverse("fbomatic:index"))

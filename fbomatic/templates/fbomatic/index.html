@@ -19,7 +19,7 @@
             <form action="{% url 'fbomatic:login' %}" method="post">
                 {% csrf_token %}
                 {% bootstrap_form auth_form layout="horizontal" %}
-                <button type="submit" name="fuel" class="btn btn-primary">{% translate "Log in" %}</button>
+                <button type="submit" class="btn btn-primary">{% translate "Log in" %}</button>
             </form>
         </div>
 
@@ -33,7 +33,7 @@
                 {% bootstrap_form fueling_form layout="horizontal" %}
 
                 <div class="d-grid gap-3 d-md-block">
-                    <button type="submit" name="fuel" class="btn btn-primary me-md-2">
+                    <button type="submit" class="btn btn-primary me-md-2">
                         {% translate "Record refueling" %}
                     </button>
                     {% if refueling_actions.0.user.email == user.email %}
@@ -42,11 +42,6 @@
                         </a>
                     {% endif %}
                     {% if user.is_staff %}
-                        {% if pump.remaining < pump.capacity %}
-                            <a href="{% url 'fbomatic:top-up' %}" class="btn btn-info me-md-2">
-                                {% translate "Record top-up" %}
-                            </a>
-                        {% endif %}
                         <a href="{% url 'admin:index' %}" class="btn btn-warning">{% translate "Administration" %}</a>
                     {% endif %}
                 </div>
@@ -83,11 +78,25 @@
             </table>
         </div>
 
-        <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{% url 'fbomatic:index' %}">
-            <button type="submit" class="btn btn-secondary">{% translate 'Log out' %}</button>
-        </form>
+        {% if user.is_staff %}
+            {% if pump.remaining < pump.capacity %}
+                <div class="container mt-3">
+                    <form action="{% url 'fbomatic:top-up' %}" method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form top_up_form layout="horizontal" %}
+                        <button type="submit" class="btn btn-info">{% translate "Record top-up" %}</button>
+                    </form>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <div class="container mt-3">
+            <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'fbomatic:index' %}">
+                <button type="submit" class="btn btn-secondary">{% translate 'Log out' %}</button>
+            </form>
+        </div>
 
     {% endif %}
 
