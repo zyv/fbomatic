@@ -81,18 +81,16 @@
             </table>
         </div>
 
-        {% if user.is_staff %}
-            {% if pump.remaining < pump.capacity %}
-                <div class="container mt-3">
-                    <form action="{% url 'fbomatic:top-up' %}" method="post">
-                        {% csrf_token %}
-                        {% bootstrap_form top_up_form layout="horizontal" %}
-                        <button type="submit" class="btn btn-info" data-testid="record-top-up">
-                            {% translate "Record top-up" %}
-                        </button>
-                    </form>
-                </div>
-            {% endif %}
+        {% if pump.remaining < pump.capacity %}
+            <div class="container mt-3">
+                <form action="{% url 'fbomatic:top-up' %}" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form top_up_form layout="horizontal" %}
+                    <button type="submit" class="btn btn-info" data-testid="record-top-up">
+                        {% translate "Record top-up" %}
+                    </button>
+                </form>
+            </div>
         {% endif %}
 
         <div class="container mt-3 d-grid gap-3 d-md-block">

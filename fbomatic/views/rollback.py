@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import F
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from fbomatic.models import Refueling
@@ -14,7 +14,7 @@ from fbomatic.models import Refueling
 logger = logging.getLogger(__name__)
 
 
-@login_required
+@login_required(login_url=reverse_lazy("fbomatic:index"))
 @transaction.atomic
 def rollback(request):
     latest = Refueling.objects.first()

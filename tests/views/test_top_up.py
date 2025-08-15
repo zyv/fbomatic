@@ -39,14 +39,13 @@ def test_top_up_success(test_client, db_pump, staff_user):
     assert len(mail.outbox) == 1
 
 
-def test_top_up_failure_authentication(test_client, db_pump, normal_user):
-    assert test_client.login(email=normal_user.email, password=TEST_PASSWORD)
+def test_top_up_failure_authentication(test_client, db_pump):
     response = test_client.post(
         reverse("fbomatic:top-up"),
-        data={"quantity": 100, "price": Decimal("2.000")},
+        data={"pump": db_pump.id, "quantity": 100, "price": Decimal("2.000")},
         follow=True,
     )
-    assert_last_redirect(response, reverse("admin:login") + "?next=" + reverse("fbomatic:top-up"))
+    assert_last_redirect(response, reverse("fbomatic:index") + "?next=" + reverse("fbomatic:top-up"))
 
 
 def test_top_up_failure_capacity(test_client, db_pump, staff_user):
