@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.db.models import CheckConstraint, Q
+from django.db.models import CheckConstraint, F, Q
 
 
 class Aircraft(models.Model):
@@ -25,6 +25,9 @@ class Pump(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        constraints = (CheckConstraint(condition=Q(remaining__lte=F("capacity")), name="remaining_lte_capacity"),)
 
 
 class Refueling(models.Model):
