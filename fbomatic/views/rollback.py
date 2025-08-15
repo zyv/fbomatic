@@ -15,23 +15,23 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
+@transaction.atomic
 def rollback(request):
-    with transaction.atomic():
-        latest = Refueling.objects.first()
+    latest = Refueling.objects.first()
 
-        if latest is None or (not request.user.is_staff and latest.user != request.user):
-            messages.error(request, _("Refueling deletion failed"))
-            return HttpResponseRedirect(reverse("fbomatic:index"))
+    if latest is None or (not request.user.is_staff and latest.user != request.user):
+        messages.error(request, _("Refueling deletion failed"))
+        return HttpResponseRedirect(reverse("fbomatic:index"))
 
-        with reversion.create_revision():
-            latest.pump.remaining = F("remaining") + latest.quantity
-            latest.pump.counter = F("counter") - latest.quantity
-            latest.pump.save()
+    with reversion.create_revision():
+        latest.pump.remaining = F("remaining") + latest.quantity
+        latest.pump.counter = F("counter") - latest.quantity
+        latest.pump.save()
 
-            latest.delete()
+        latest.delete()
 
-            reversion.set_user(request.user)
-            reversion.set_comment("Rollback refueling operation")
+        reversion.set_user(request.user)
+        reversion.set_comment("Rollback refueling operation")
 
     messages.success(request, _("Refueling deleted"))
     return HttpResponseRedirect(reverse("fbomatic:index"))
