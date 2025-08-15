@@ -13,7 +13,7 @@ pytestmark = pytest.mark.django_db
 User = get_user_model()
 
 
-def test_perform_login_failure(test_client, monkeypatch):
+def test_perform_login_failure_vereinsflieger(test_client, monkeypatch):
     assert not test_client.login(email="foo@bar.quux", password="good_password")
 
     mock_vf_session = MagicMock()
@@ -33,7 +33,7 @@ def test_perform_login_failure(test_client, monkeypatch):
     assert not test_client.login(email="foo@bar.quux", password="good_password")
 
 
-def test_perform_login_success(test_client, monkeypatch):
+def test_perform_login_success_vereinsflieger(test_client, monkeypatch):
     assert not test_client.login(email="foo@bar.quux", password="good_password")
 
     mock_vf_session = MagicMock()
@@ -58,3 +58,9 @@ def test_perform_login_success(test_client, monkeypatch):
 
     assert not test_client.login(email="foo@bar.quux", password="bad_password")
     assert test_client.login(email="foo@bar.quux", password="good_password")
+
+
+def test_perform_login_failure_form_data(test_client, db_pump, db_aircraft, normal_user):
+    response = test_client.post(reverse("fbomatic:login"), data={}, follow=True)
+    assert_last_redirect(response, reverse("fbomatic:index"))
+    assert_message(response, messages.ERROR)

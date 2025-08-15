@@ -17,12 +17,13 @@ User = get_user_model()
 def perform_login(request):
     # First attempt
     form = AuthenticationForm(data=request.POST)
+
     if form.is_valid():
         login(request, form.get_user())
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
     # Try to import/update user from Vereinsflieger
-    email, password = form.cleaned_data["email"], form.cleaned_data["password"]
+    email, password = form.cleaned_data.get("email"), form.cleaned_data.get("password")
 
     if not email or not password:
         messages.error(request, _("Invalid form data"))
