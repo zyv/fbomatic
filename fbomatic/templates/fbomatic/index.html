@@ -86,10 +86,30 @@
                 <form action="{% url 'fbomatic:top-up' %}" method="post">
                     {% csrf_token %}
                     {% bootstrap_form top_up_form layout="horizontal" %}
-                    <button type="submit" class="btn btn-info" data-testid="record-top-up">
+                    <button type="submit" class="btn btn-success" data-testid="button-record-top-up">
                         {% translate "Record top-up" %}
                     </button>
                 </form>
+            </div>
+        {% endif %}
+
+        {% if user.is_staff %}
+            <div class="container mt-3">
+                <form action="{% url 'fbomatic:export' %}" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form export_form layout="horizontal" %}
+                    <button type="submit" class="btn btn-info" data-testid="button-export">
+                        {% translate "Export as CSV" %}
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+
+        {% if user.is_superuser %}
+            <div class="container mt-3">
+                <a href="{% url 'admin:index' %}" class="btn btn-warning me-md-2" data-testid="button-administration">
+                    {% translate "Administration" %}
+                </a>
             </div>
         {% endif %}
 
@@ -97,14 +117,6 @@
             <form id="logout-form" method="post" action="{% url 'fbomatic:logout' %}">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{% url 'fbomatic:index' %}">
-
-                {% if user.is_superuser %}
-                    <a href="{% url 'admin:index' %}" class="btn btn-warning me-md-2"
-                       data-testid="button-administration">
-                        {% translate "Administration" %}
-                    </a>
-                {% endif %}
-
                 <button type="submit" class="btn btn-secondary me-md-2" data-testid="button-log-out">
                     {% translate 'Log out' %}
                 </button>

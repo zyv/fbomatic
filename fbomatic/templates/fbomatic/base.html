@@ -46,8 +46,13 @@
     // Run button-blocking code asynchronously to reliably disable buttons upon submitting the form
     function disableButtons() {
         setTimeout(function () {
-            $("form button").prop("disabled", true)
+            $("form button").prop("disabled", true);
+            $("a.btn").addClass("disabled");
         });
+        setTimeout(function () {
+            $("form button").prop("disabled", false);
+            $("a.btn").removeClass("disabled");
+        }, 5000);
     }
 
     $(document).ready(function () {

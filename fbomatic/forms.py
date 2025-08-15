@@ -14,3 +14,8 @@ class TopUpForm(forms.Form):
     quantity = forms.IntegerField(label=_("Quantity"), min_value=1)
     price = forms.DecimalField(label=_("Price"), min_value=1)
     pump = forms.ModelChoiceField(queryset=Pump.objects.all(), widget=forms.HiddenInput())
+
+
+class ExportForm(forms.Form):
+    count = forms.IntegerField(label=_("Number of records"), initial=500, min_value=1)
+    pump = forms.ModelChoiceField(queryset=Pump.objects.all(), widget=forms.HiddenInput())

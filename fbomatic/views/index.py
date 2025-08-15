@@ -8,7 +8,7 @@ from django.db.models import QuerySet
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
-from fbomatic.forms import FuelingForm, TopUpForm
+from fbomatic.forms import ExportForm, FuelingForm, TopUpForm
 from fbomatic.models import Pump, Refueling
 
 logger = logging.getLogger(__name__)
@@ -23,6 +23,7 @@ def index(request):
         auth_form: forms.Form
         fueling_form: forms.Form
         top_up_form: forms.Form
+        export_form: forms.Form
         refueling_actions: QuerySet[Refueling]
         actions_caption: str
         refueling_threshold: int
@@ -40,6 +41,7 @@ def index(request):
                     auth_form=AuthenticationForm(),
                     fueling_form=FuelingForm(initial={"pump": pump}),
                     top_up_form=TopUpForm(initial={"pump": pump}),
+                    export_form=ExportForm(initial={"pump": pump}),
                     refueling_actions=refueling_actions,
                     actions_caption=_("Last {count} fueling actions").format(count=REFUELING_RECORDS_LIMIT),
                     refueling_threshold=settings.REFUELING_THRESHOLD_LITERS,
