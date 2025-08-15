@@ -18,7 +18,7 @@ def test_top_up_success(test_client, db_pump, staff_user):
     assert test_client.login(email=staff_user.email, password=TEST_PASSWORD)
     response = test_client.post(
         reverse("fbomatic:top-up"),
-        data={"quantity": 100, "price": Decimal("2.000")},
+        data={"pump": db_pump.id, "quantity": 100, "price": Decimal("2.000")},
         follow=True,
     )
     assert_last_redirect(response, reverse("fbomatic:index"))

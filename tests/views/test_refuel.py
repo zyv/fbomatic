@@ -18,7 +18,7 @@ def test_refuel_success_no_mail(test_client, db_pump, db_aircraft, settings, nor
     assert test_client.login(email=normal_user.email, password=TEST_PASSWORD)
     response = test_client.post(
         reverse("fbomatic:refuel"),
-        data={"aircraft": db_aircraft.id, "quantity": 10},
+        data={"pump": db_pump.id, "aircraft": db_aircraft.id, "quantity": 10},
         follow=True,
     )
 
@@ -43,7 +43,11 @@ def test_refuel_success_and_email_sent(test_client, db_pump, db_aircraft, settin
     settings.REFUELING_THRESHOLD_LITERS = db_pump.remaining
 
     assert test_client.login(email=normal_user.email, password=TEST_PASSWORD)
-    test_client.post(reverse("fbomatic:refuel"), data={"aircraft": db_aircraft.id, "quantity": 10}, follow=True)
+    test_client.post(
+        reverse("fbomatic:refuel"),
+        data={"pump": db_pump.id, "aircraft": db_aircraft.id, "quantity": 10},
+        follow=True,
+    )
 
     assert len(mail.outbox) == 1
 
