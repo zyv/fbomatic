@@ -58,3 +58,14 @@ def test_top_up_failure_capacity(test_client, db_pump, staff_user):
     )
     assert_last_redirect(response, reverse("fbomatic:index"))
     assert_message(response, messages.ERROR)
+
+
+def test_top_up_failure_form_data(test_client, db_pump, staff_user):
+    assert test_client.login(email=staff_user.email, password=TEST_PASSWORD)
+    response = test_client.post(
+        reverse("fbomatic:top-up"),
+        data={"quantity": -10, "price": Decimal("0.123")},
+        follow=True,
+    )
+    assert_last_redirect(response, reverse("fbomatic:index"))
+    assert_message(response, messages.ERROR)
