@@ -46,3 +46,14 @@ def test_refuel_success_and_email_sent(test_client, db_pump, db_aircraft, settin
     test_client.post(reverse("fbomatic:refuel"), data={"aircraft": db_aircraft.id, "quantity": 10}, follow=True)
 
     assert len(mail.outbox) == 1
+
+
+def test_refuel_failure_form_data(test_client, db_pump, db_aircraft, normal_user):
+    assert test_client.login(email=normal_user.email, password=TEST_PASSWORD)
+    response = test_client.post(
+        reverse("fbomatic:refuel"),
+        data={"aircraft": db_aircraft.id, "quantity": -4},
+        follow=True,
+    )
+    assert_last_redirect(response, reverse("fbomatic:index"))
+    assert_message(response, messages.ERROR)
