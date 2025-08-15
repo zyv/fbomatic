@@ -20,6 +20,7 @@ def perform_login(request):
 
     if form.is_valid():
         login(request, form.get_user())
+        messages.success(request, _("Welcome,") + f" {request.user.first_name}!")
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
     # Try to import/update user from Vereinsflieger
@@ -54,6 +55,7 @@ def perform_login(request):
     form = AuthenticationForm(data=request.POST)
     if form.is_valid():
         login(request, form.get_user())
+        messages.success(request, _("Welcome,") + f" {request.user.first_name}!")
     else:
         messages.error(request, _("Invalid form data"))
 

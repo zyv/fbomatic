@@ -7,10 +7,21 @@ from django.urls import reverse
 
 from fbomatic.vereinsflieger import VereinsfliegerError, VereinsfliegerUser
 from tests.conftest import assert_last_redirect, assert_message
+from tests.views.conftest import TEST_PASSWORD
 
 pytestmark = pytest.mark.django_db
 
 User = get_user_model()
+
+
+def test_perform_login_success_local(test_client, db_pump, db_aircraft, normal_user):
+    response = test_client.post(
+        reverse("fbomatic:login"),
+        data={"email": normal_user.email, "password": TEST_PASSWORD},
+        follow=True,
+    )
+    assert_last_redirect(response, reverse("fbomatic:index"))
+    assert_message(response, messages.SUCCESS)
 
 
 def test_perform_login_failure_vereinsflieger(test_client, monkeypatch):
@@ -52,7 +63,7 @@ def test_perform_login_success_vereinsflieger(test_client, monkeypatch):
         follow=True,
     )
     assert_last_redirect(response, reverse("fbomatic:index"))
-    assert not len(response.context["messages"])
+    assert_message(response, messages.SUCCESS)
 
     assert User.objects.count() == 1
 
@@ -60,7 +71,7 @@ def test_perform_login_success_vereinsflieger(test_client, monkeypatch):
     assert test_client.login(email="foo@bar.quux", password="good_password")
 
 
-def test_perform_login_failure_form_data(test_client, db_pump, db_aircraft, normal_user):
+def test_perform_login_failure_form_data(test_client, db_pump, db_aircraft):
     response = test_client.post(reverse("fbomatic:login"), data={}, follow=True)
     assert_last_redirect(response, reverse("fbomatic:index"))
     assert_message(response, messages.ERROR)
