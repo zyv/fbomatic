@@ -20,12 +20,13 @@ def export(request):
         messages.error(request, _("Invalid form data"))
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
-    refueling = Refueling.objects.filter(pump=form.cleaned_data["pump"]).order_by("-timestamp")[
-        : form.cleaned_data["count"]
-    ]
+    pump, count = form.cleaned_data["pump"], form.cleaned_data["count"]
+    refueling = Refueling.objects.filter(pump=pump).order_by("-timestamp")[:count]
 
     response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = f'attachment; filename="refueling-{timezone.now().date().isoformat()}.csv"'
+    response["Content-Disposition"] = (
+        f'attachment; filename="refueling-{pump.name.lower()}-{timezone.now().date().isoformat()}.csv"'
+    )
 
     writer = csv.writer(response)
     writer.writerow(("timestamp", "pump", "type", "counter", "quantity", "price", "email", "first_name", "last_name"))
