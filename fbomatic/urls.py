@@ -1,3 +1,4 @@
+from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from fbomatic.views.index import index
@@ -13,4 +14,5 @@ urlpatterns = (
     path("refuel/", refuel, name="refuel"),
     path("top-up/", top_up, name="top-up"),
     path("login/", perform_login, name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 )

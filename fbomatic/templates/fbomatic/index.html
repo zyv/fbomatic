@@ -96,7 +96,7 @@
         {% endif %}
 
         <div class="container mt-3 d-grid gap-3 d-md-block">
-            <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+            <form id="logout-form" method="post" action="{% url 'fbomatic:logout' %}">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{% url 'fbomatic:index' %}">
 
