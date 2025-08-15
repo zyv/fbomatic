@@ -51,4 +51,4 @@ class PumpAdmin(VersionAdmin):
 
 @admin.register(Refueling)
 class RefuelingAdmin(VersionAdmin):
-    list_display = ("timestamp", "user", "aircraft", "quantity", "counter")
+    list_display = ("timestamp", "user", "aircraft", "quantity", "counter", "price")
