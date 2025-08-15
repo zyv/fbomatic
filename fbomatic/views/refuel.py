@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.db import IntegrityError
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -26,24 +27,28 @@ def refuel(request):
 
     pump, quantity = form.cleaned_data["pump"], form.cleaned_data["quantity"]
 
-    with reversion.create_revision():
-        pump_remaining_before = pump.remaining
-        pump.remaining = F("remaining") - quantity
-        pump.counter = F("counter") + quantity
-        pump.save()
+    try:
+        with reversion.create_revision():
+            pump.refresh_from_db()
+            pump_remaining_before = pump.remaining
+            pump.remaining = F("remaining") - quantity
+            pump.counter = F("counter") + quantity
+            pump.save()
+            pump.refresh_from_db()
 
-        pump.refresh_from_db()
+            Refueling.objects.create(
+                pump=pump,
+                user=request.user,
+                aircraft=form.cleaned_data["aircraft"],
+                counter=pump.counter,
+                quantity=quantity,
+            )
 
-        Refueling.objects.create(
-            pump=pump,
-            user=request.user,
-            aircraft=form.cleaned_data["aircraft"],
-            counter=pump.counter,
-            quantity=quantity,
-        )
-
-        reversion.set_user(request.user)
-        reversion.set_comment("Refueling operation")
+            reversion.set_user(request.user)
+            reversion.set_comment("Refueling operation")
+    except IntegrityError:
+        messages.error(request, _("Invalid form data"))
+        return HttpResponseRedirect(reverse("fbomatic:index"))
 
     if (
         pump.remaining < settings.REFUELING_THRESHOLD_LITERS

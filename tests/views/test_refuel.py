@@ -61,3 +61,14 @@ def test_refuel_failure_form_data(test_client, db_pump, db_aircraft, normal_user
     )
     assert_last_redirect(response, reverse("fbomatic:index"))
     assert_message(response, messages.ERROR)
+
+
+def test_refuel_failure_not_enough_fuel(test_client, db_pump, db_aircraft, normal_user):
+    assert test_client.login(email=normal_user.email, password=TEST_PASSWORD)
+    response = test_client.post(
+        reverse("fbomatic:refuel"),
+        data={"pump": db_pump.id, "aircraft": db_aircraft.id, "quantity": 600},
+        follow=True,
+    )
+    assert_last_redirect(response, reverse("fbomatic:index"))
+    assert_message(response, messages.ERROR)
