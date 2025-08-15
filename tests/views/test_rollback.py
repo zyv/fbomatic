@@ -16,7 +16,7 @@ pytestmark = pytest.mark.django_db
         ("normal_user", "normal_user"),
     ],
 )
-def test_rollback_latest_success(owner_fixture, actor_fixture, request, test_client, db_pump):
+def test_rollback_success_latest(owner_fixture, actor_fixture, request, test_client, db_pump):
     actor_user = request.getfixturevalue(actor_fixture)
     owner_user = request.getfixturevalue(owner_fixture)
 
@@ -42,7 +42,7 @@ def test_rollback_latest_success(owner_fixture, actor_fixture, request, test_cli
     assert db_pump.counter == previous_counter - record.quantity
 
 
-def test_rollback_latest_failure(test_client, db_pump, staff_user, normal_user):
+def test_rollback_failure_latest(test_client, db_pump, staff_user, normal_user):
     Refueling.objects.create(
         pump=db_pump,
         user=staff_user,
@@ -56,3 +56,8 @@ def test_rollback_latest_failure(test_client, db_pump, staff_user, normal_user):
     assert_message(response, messages.ERROR)
 
     assert Refueling.objects.count() == 1
+
+
+def test_rollback_failure_authentication(test_client, db_pump):
+    response = test_client.post(reverse("fbomatic:rollback"), follow=True)
+    assert_last_redirect(response, reverse("fbomatic:index") + "?next=" + reverse("fbomatic:rollback"))
