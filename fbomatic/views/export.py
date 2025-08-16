@@ -6,12 +6,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
 
 from fbomatic.forms import ExportForm
 from fbomatic.models import Refueling
 from fbomatic.templatetags.fbomatic_utils import refueling_type
 
 
+@never_cache
+@csrf_protect
 @staff_member_required(login_url=reverse_lazy("fbomatic:index"))
 def export(request):
     form = ExportForm(request.POST)

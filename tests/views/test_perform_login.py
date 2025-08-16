@@ -24,12 +24,10 @@ def test_perform_login_success_local(test_client, db_pump, db_aircraft, normal_u
 
 
 def test_perform_login_failure_vereinsflieger(test_client, monkeypatch):
-    assert not test_client.login(email="foo@bar.quux", password="good_password")
-
     mock_vf_session = MagicMock()
     mock_vf_session.return_value.__enter__.return_value = mock_vf_session
     mock_vf_session.get_user.side_effect = VereinsfliegerError
-    monkeypatch.setattr("fbomatic.views.perform_login.VereinsfliegerApiSession", mock_vf_session)
+    monkeypatch.setattr("fbomatic.backends.VereinsfliegerApiSession", mock_vf_session)
 
     response = test_client.post(
         reverse("fbomatic:login"),
@@ -44,8 +42,6 @@ def test_perform_login_failure_vereinsflieger(test_client, monkeypatch):
 
 
 def test_perform_login_success_vereinsflieger(test_client, monkeypatch):
-    assert not test_client.login(email="foo@bar.quux", password="good_password")
-
     mock_vf_session = MagicMock()
     mock_vf_session.return_value.__enter__.return_value = mock_vf_session
     mock_vf_session.get_user.return_value = VereinsfliegerUser(
@@ -54,7 +50,7 @@ def test_perform_login_success_vereinsflieger(test_client, monkeypatch):
         lastname="Bar",
         email="foo@bar.quux",
     )
-    monkeypatch.setattr("fbomatic.views.perform_login.VereinsfliegerApiSession", mock_vf_session)
+    monkeypatch.setattr("fbomatic.backends.VereinsfliegerApiSession", mock_vf_session)
 
     response = test_client.post(
         reverse("fbomatic:login"),
@@ -66,7 +62,9 @@ def test_perform_login_success_vereinsflieger(test_client, monkeypatch):
 
     assert User.objects.count() == 1
 
+    mock_vf_session.get_user.side_effect = VereinsfliegerError
     assert not test_client.login(email="foo@bar.quux", password="bad_password")
+
     assert test_client.login(email="foo@bar.quux", password="good_password")
 
 

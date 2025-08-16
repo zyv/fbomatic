@@ -44,7 +44,7 @@ def test_top_up_failure_authentication(test_client, db_pump):
         data={"pump": db_pump.id, "quantity": 100, "price": Decimal("2.000")},
         follow=True,
     )
-    assert_last_redirect(response, reverse("fbomatic:index") + "?next=" + reverse("fbomatic:top-up"))
+    assert_last_redirect(response, reverse("fbomatic:index"))
 
 
 def test_top_up_failure_capacity(test_client, db_pump, staff_user):

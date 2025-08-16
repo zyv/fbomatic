@@ -75,4 +75,4 @@ def test_refuel_failure_not_enough_fuel(test_client, db_pump, db_aircraft, norma
 
 def test_refuel_failure_authentication(test_client, db_pump):
     response = test_client.post(reverse("fbomatic:refuel"), follow=True)
-    assert_last_redirect(response, reverse("fbomatic:index") + "?next=" + reverse("fbomatic:refuel"))
+    assert_last_redirect(response, reverse("fbomatic:index"))

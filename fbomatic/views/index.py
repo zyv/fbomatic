@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db.models import QuerySet
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.cache import never_cache
 
 from fbomatic.forms import ExportForm, FuelingForm, TopUpForm
 from fbomatic.models import Pump, Refueling
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 REFUELING_RECORDS_LIMIT = 10
 
 
+@never_cache
 def index(request):
     @dataclass(frozen=True, kw_only=True)
     class Context:

@@ -59,4 +59,4 @@ def test_rollback_failure_latest(test_client, db_pump, staff_user, normal_user):
 
 def test_rollback_failure_authentication(test_client, db_pump):
     response = test_client.post(reverse("fbomatic:rollback"), follow=True)
-    assert_last_redirect(response, reverse("fbomatic:index") + "?next=" + reverse("fbomatic:rollback"))
+    assert_last_redirect(response, reverse("fbomatic:index"))

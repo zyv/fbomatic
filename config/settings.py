@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -169,6 +170,11 @@ if DEBUG:
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 AUTH_USER_MODEL = "cuser.CUser"
+AUTHENTICATION_BACKENDS = ["fbomatic.backends.VereinsfliegerBackend"]
+
+LOGIN_URL = reverse_lazy("fbomatic:login")
+LOGIN_REDIRECT_URL = reverse_lazy("fbomatic:index")
+LOGOUT_REDIRECT_URL = reverse_lazy("fbomatic:index")
 
 VEREINSFLIEGER_APP_KEY = (
     os.environ["VEREINSFLIEGER_APP_KEY"] if not DEBUG else os.getenv("VEREINSFLIEGER_APP_KEY", "dummy")
