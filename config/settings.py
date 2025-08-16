@@ -159,6 +159,11 @@ BOOTSTRAP5 = {
     "horizontal_field_class": "col-sm-9",
 }
 
+if DEBUG:
+    INTERNAL_IPS = ["127.0.0.1"]
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+
 AUTH_USER_MODEL = "cuser.CUser"
 
 VEREINSFLIEGER_APP_KEY = (
