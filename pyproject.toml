@@ -48,7 +48,9 @@ omit = [
     "**/tests/**",
     "*/migrations/*",
     "*/test_*.py",
-    "manage.py"
+    "manage.py",
+    "config/asgi.py",
+    "config/wsgi.py"
 ]
 
 [tool.ruff]
