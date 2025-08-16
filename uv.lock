@@ -254,6 +254,7 @@ requires-dist = [
     { name = "django-username-email" },
     { name = "gunicorn" },
     { name = "httpx" },
+    { name = "mysqlclient", marker = "extra == 'mysql'" },
     { name = "psycopg", extras = ["binary"] },
     { name = "whitenoise", extras = ["brotli"] },
 ]
