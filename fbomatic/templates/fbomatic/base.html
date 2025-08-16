@@ -8,7 +8,24 @@
     <meta name="robots" content="noindex, nofollow, noarchive">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Fbomatic</title>
+    <title>fbomatic</title>
+
+    <meta name="author" content="Yury V. Zaytsev">
+    <meta name="description" content="FBO management app">
+
+    <meta property="og:title" content="fbomatic">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}">
+    <meta property="og:description" content="FBO management app">
+    <meta property="og:image" content="{% static 'icons/apple-touch-icon.png' %}">
+
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="icon" type="image/x-icon" sizes="16x16" href="{% static 'icons/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'icons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'icons/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
 
     {% bootstrap_css %}
 
