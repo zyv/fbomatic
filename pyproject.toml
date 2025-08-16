@@ -18,10 +18,12 @@ dependencies = [
     "django~=5.2",
     "gunicorn",
     "httpx",
-    "mysqlclient ; extra == 'mysql'",
     "psycopg[binary]",
     "whitenoise[brotli]",
 ]
+
+[project.optional-dependencies]
+mysql = ["mysqlclient"]
 
 [dependency-groups]
 dev = [
