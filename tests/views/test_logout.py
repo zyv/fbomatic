@@ -3,8 +3,7 @@ import http.client
 import pytest
 from django.urls import reverse
 
-from tests.conftest import assert_last_redirect
-from tests.views.conftest import TEST_PASSWORD
+from tests.views.conftest import TEST_PASSWORD, assert_last_redirect
 
 pytestmark = pytest.mark.django_db
 

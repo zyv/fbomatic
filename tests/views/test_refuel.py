@@ -4,8 +4,7 @@ from django.core import mail
 from django.urls import reverse
 
 from fbomatic.models import Refueling
-from tests.conftest import assert_last_redirect, assert_message
-from tests.views.conftest import TEST_PASSWORD
+from tests.views.conftest import TEST_PASSWORD, assert_last_redirect, assert_message
 
 pytestmark = pytest.mark.django_db
 

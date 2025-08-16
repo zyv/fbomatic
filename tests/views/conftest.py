@@ -43,3 +43,12 @@ def db_pump() -> Pump:
 @pytest.fixture
 def db_aircraft() -> Aircraft:
     return Aircraft.objects.create(registration="D-TEST")
+
+
+def assert_message(response, level):
+    assert len(response.context["messages"]) == 1
+    assert list(response.context["messages"])[-1].level == level
+
+
+def assert_last_redirect(response, url):
+    assert response.redirect_chain[-1][0] == url
