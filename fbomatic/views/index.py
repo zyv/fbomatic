@@ -40,9 +40,9 @@ def index(request):
                 Context(
                     pump=pump,
                     auth_form=AuthenticationForm(),
-                    fueling_form=FuelingForm(initial={"pump": pump}),
-                    top_up_form=TopUpForm(initial={"pump": pump}),
-                    export_form=ExportForm(initial={"pump": pump}),
+                    fueling_form=FuelingForm(),
+                    top_up_form=TopUpForm(),
+                    export_form=ExportForm(),
                     refueling_actions=refueling_actions,
                     actions_caption=_("Last {count} fueling actions").format(count=REFUELING_RECORDS_LIMIT),
                     refueling_threshold=settings.REFUELING_THRESHOLD_LITERS,
