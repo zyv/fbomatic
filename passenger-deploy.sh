@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 ./manage.sh compilemessages
 ./manage.sh collectstatic --no-input
 
