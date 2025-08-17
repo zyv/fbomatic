@@ -2,6 +2,8 @@
 
 set -e
 
+uv sync --locked --extra mysql
+
 ./manage.sh compilemessages
 ./manage.sh collectstatic --no-input
 
