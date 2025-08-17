@@ -63,7 +63,7 @@ def refuel(request):
             f"Please refill, remaining fuel {pump.remaining} L < {settings.REFUELING_THRESHOLD_LITERS} L",
             settings.EMAIL_CONTENTS,
             settings.NOTIFICATIONS_EMAIL_FROM,
-            [settings.NOTIFICATIONS_EMAIL_TO],
+            [settings.NOTIFICATIONS_EMAIL_TO, request.user.email],
         )
 
     messages.success(request, _("Refueling recorded"))
