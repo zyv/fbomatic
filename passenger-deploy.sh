@@ -2,6 +2,8 @@
 
 set -e
 
+export PATH="$HOME/.local/bin:$PATH"
+
 uv sync --locked --extra mysql
 
 ./manage.sh compilemessages
