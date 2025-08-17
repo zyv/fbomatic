@@ -9,14 +9,23 @@ Provisions for having multiple pumps are currently in place, but they are not ac
 ./manage.py createsuperuser
 ./manage.py makemigrations
 ./manage.py makemessages -a
-./manage.py compilemessages
 ```
 
 ## Deploy
 
+```shell
+# For passenger
+apt install python-is-python3
+
+# For mysqlclient
+apt install build-essential pkg-config default-libmysqlclient-dev
+
+# For python manage.py compilemessages
+apt install gettext
 ```
-./manage.py migrate
-./manage.py createinitialrevisions
-./manage.py compilemessages
-./manage.py collectstatic
+
+Install uv:
+
+```shell
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
