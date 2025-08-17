@@ -1,3 +1,5 @@
+import importlib.machinery
+import importlib.util
 import os
 import sys
 from pathlib import Path
@@ -18,9 +20,6 @@ env = Path(APP_DIRECTORY.parent / "fbomatic.env").read_text().splitlines(keepend
 for line in env:
     name, value = [item.strip() for item in line.split("=", maxsplit=1)]
     os.environ[name] = value.lstrip('"').rstrip('"') if value.startswith('"') and value.endswith('"') else value
-
-import importlib.machinery
-import importlib.util
 
 
 def load_source(modname, filename):
