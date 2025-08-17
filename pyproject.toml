@@ -36,6 +36,7 @@ dev = [
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
+pythonpath = ["src"]
 
 filterwarnings = [
     'ignore:No directory at.*staticfiles:UserWarning',
@@ -46,14 +47,12 @@ DJANGO_DEBUG = "1"
 
 [tool.coverage.run]
 branch = true
-source = ["."]
+source = ["src"]
 omit = [
-    "**/tests/**",
     "*/migrations/*",
-    "*/test_*.py",
-    "manage.py",
-    "config/asgi.py",
-    "config/wsgi.py"
+    "src/manage.py",
+    "src/config/asgi.py",
+    "src/config/wsgi.py"
 ]
 
 [tool.ruff]

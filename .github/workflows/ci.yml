@@ -31,8 +31,8 @@ jobs:
 
       - run: uv run ruff format --diff
 
-      - run: uv run python manage.py makemigrations --check
+      - run: uv run python src/manage.py makemigrations --check
 
-      - run: uv run python manage.py compilemessages
+      - run: uv run python src/manage.py compilemessages
 
-      - run: uv run pytest --cov --cov-fail-under=94
+      - run: uv run pytest --cov --cov-fail-under=95
