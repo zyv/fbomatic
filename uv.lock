@@ -230,13 +230,15 @@ dependencies = [
     { name = "django-bootstrap5" },
     { name = "django-reversion" },
     { name = "django-username-email" },
-    { name = "gunicorn" },
     { name = "httpx" },
     { name = "psycopg", extra = ["binary"] },
     { name = "whitenoise", extra = ["brotli"] },
 ]
 
 [package.optional-dependencies]
+gunicorn = [
+    { name = "gunicorn" },
+]
 mysql = [
     { name = "mysqlclient" },
 ]
@@ -257,13 +259,13 @@ requires-dist = [
     { name = "django-bootstrap5" },
     { name = "django-reversion" },
     { name = "django-username-email" },
-    { name = "gunicorn" },
+    { name = "gunicorn", marker = "extra == 'gunicorn'" },
     { name = "httpx" },
     { name = "mysqlclient", marker = "extra == 'mysql'" },
     { name = "psycopg", extras = ["binary"] },
     { name = "whitenoise", extras = ["brotli"] },
 ]
-provides-extras = ["mysql"]
+provides-extras = ["mysql", "gunicorn"]
 
 [package.metadata.requires-dev]
 dev = [
