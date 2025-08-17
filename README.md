@@ -29,3 +29,19 @@ Install uv:
 ```shell
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
+
+Adjust `fbomatic.env`:
+
+```shell
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+```
+
+```python
+from django.core.management.utils import get_random_secret_key
+
+print(get_random_secret_key())
+
+from urllib.parse import quote
+
+quote("password")
+```

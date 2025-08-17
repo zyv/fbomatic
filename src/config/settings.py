@@ -85,7 +85,7 @@ DATABASES = {
     "default": dj_database_url.config(
         conn_max_age=600,
         conn_health_checks=True,
-        **({"default": "sqlite:///" + str(BASE_DIR / "db.sqlite3")} if DEBUG else {}),
+        **({"default": "sqlite:///" + str(BASE_DIR.parent / "db.sqlite3")} if DEBUG else {}),
     )
 }
 
@@ -172,14 +172,22 @@ REFUELING_THRESHOLD_LITERS = 50
 
 ADMINS = [("", email) for email in os.getenv("DJANGO_ADMINS", "").split(",")]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
+
+EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_PORT = os.getenv("EMAIL_PORT", 25)
+EMAIL_USE_SSL = bool(os.getenv("EMAIL_USE_SSL", False))
+EMAIL_USE_TLS = bool(os.getenv("EMAIL_USE_TLS", False))
+
 EMAIL_SUBJECT_PREFIX = "[fbomatic] "
 EMAIL_CONTENTS = "Greetings from fbomatic!"
 
 NOTIFICATIONS_EMAIL_FROM = os.getenv("NOTIFICATIONS_EMAIL_FROM", "no-reply@localhost")
-NOTIFICATIONS_EMAIL_TO = os.getenv("NOTIFICATIONS_EMAIL_FROM", "fbo@localhost")
+NOTIFICATIONS_EMAIL_TO = os.getenv("NOTIFICATIONS_EMAIL_TO", "fbo@localhost")
 
-SERVER_EMAIL = NOTIFICATIONS_EMAIL_FROM
+SERVER_EMAIL = DEFAULT_FROM_EMAIL = NOTIFICATIONS_EMAIL_FROM
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
