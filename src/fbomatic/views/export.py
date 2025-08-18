@@ -27,9 +27,12 @@ def export(request):
     pump, count = form.cleaned_data["pump"], form.cleaned_data["count"]
     refueling = Refueling.objects.filter(pump=pump).order_by("-timestamp")[:count]
 
-    response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = (
-        f'attachment; filename="refueling-{pump.name.lower()}-{timezone.now().date().isoformat()}.csv"'
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; "
+            f'filename="refueling-{pump.name.lower()}-{timezone.now().date().isoformat()}.csv"'
+        },
     )
 
     writer = csv.writer(response)
