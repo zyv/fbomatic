@@ -17,7 +17,7 @@ sys.path.insert(0, str(VENV_DIRECTORY))
 os.chdir(APP_DIRECTORY)
 
 env = Path(APP_DIRECTORY.parent / "fbomatic.env").read_text().splitlines(keepends=False)
-for line in (line for line in env if line.strip()):
+for line in (line for line in env if line.strip() if not line.strip().startswith("#")):
     name, value = [item.strip() for item in line.split("=", maxsplit=1)]
     os.environ[name] = value.lstrip('"').rstrip('"') if value.startswith('"') and value.endswith('"') else value
 
