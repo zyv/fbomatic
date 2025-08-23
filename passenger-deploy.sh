@@ -16,4 +16,5 @@ uv sync --locked --extra mysql --managed-python
 ./manage.sh migrate
 ./manage.sh createinitialrevisions
 
+mkdir -p tmp
 touch tmp/restart.txt
