@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 APP_DIRECTORY = Path(__file__).resolve().parent / "src"
+ENV_FILE = APP_DIRECTORY.parent / f"{APP_DIRECTORY.parent.name}.env"
 VENV_DIRECTORY = APP_DIRECTORY.parent / ".venv" / "bin"
 VENV_PYTHON = VENV_DIRECTORY / "python"
 
@@ -16,8 +17,11 @@ sys.path.insert(0, str(VENV_DIRECTORY))
 
 os.chdir(APP_DIRECTORY)
 
-env = Path(APP_DIRECTORY.parent / "fbomatic.env").read_text().splitlines(keepends=False)
-for line in (line for line in env if line.strip() if not line.strip().startswith("#")):
+for line in (
+    line
+    for line in (ENV_FILE.read_text().splitlines(keepends=False))
+    if line.strip() and not line.strip().startswith("#")
+):
     name, value = [item.strip() for item in line.split("=", maxsplit=1)]
     os.environ[name] = value.lstrip('"').rstrip('"') if value.startswith('"') and value.endswith('"') else value
 
