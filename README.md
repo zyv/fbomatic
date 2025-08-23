@@ -24,12 +24,6 @@ apt install build-essential pkg-config default-libmysqlclient-dev
 apt install gettext
 ```
 
-Install uv:
-
-```shell
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
 Adjust `fbomatic.env`:
 
 ```shell
