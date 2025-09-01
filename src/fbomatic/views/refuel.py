@@ -26,6 +26,7 @@ def refuel(request):
     form = FuelingForm(request.POST)
 
     if not form.is_valid():
+        logger.warning(form.errors)
         messages.error(request, _("Invalid form data"))
         return HttpResponseRedirect(reverse("fbomatic:index"))
 

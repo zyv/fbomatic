@@ -25,6 +25,7 @@ def top_up(request):
     form = TopUpForm(request.POST)
 
     if not form.is_valid():
+        logger.warning(form.errors)
         messages.error(request, _("Invalid form data"))
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
