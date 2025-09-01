@@ -29,6 +29,8 @@
 
         <p class="mt-3 fw-bold">{% translate "Hello" %}, {{ user.first_name }}!</p>
 
+        <h2>{% translate "Refuel" %}</h2>
+
         <div class="container mt-3 form-apply-select2">
             <form action="{% url 'fbomatic:refuel' %}" method="post">
                 {% csrf_token %}
@@ -82,6 +84,8 @@
         </div>
 
         {% if pump.remaining < pump.capacity %}
+            <h2>{% translate "Top-up" %}</h2>
+
             <div class="container mt-3">
                 <form action="{% url 'fbomatic:top-up' %}" method="post">
                     {% csrf_token %}
