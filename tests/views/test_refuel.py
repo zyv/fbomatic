@@ -49,6 +49,10 @@ def test_refuel_success_and_email_sent(test_client, db_pump, db_aircraft, settin
     )
 
     assert len(mail.outbox) == 1
+    assert mail.outbox[0].from_email == "no-reply@localhost"
+    assert mail.outbox[0].to == ["fbo@localhost", "user@example.com"]
+    assert mail.outbox[0].subject == "[fbomatic] Please refill, remaining fuel 490 L < 500 L"
+    assert mail.outbox[0].body == "Greetings from fbomatic!"
 
 
 def test_refuel_failure_form_data(test_client, db_pump, db_aircraft, normal_user):
