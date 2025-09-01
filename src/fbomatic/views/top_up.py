@@ -30,6 +30,8 @@ def top_up(request):
 
     pump, quantity, price = form.cleaned_data["pump"], form.cleaned_data["quantity"], form.cleaned_data["price"]
 
+    last_refueling = Refueling.objects.filter(pump=pump, aircraft__isnull=False).order_by("-timestamp").first()
+
     try:
         with reversion.create_revision():
             pump.remaining += quantity
@@ -55,7 +57,10 @@ def top_up(request):
         f"Pump topped-up by {request.user.first_name} {request.user.last_name} ({quantity} L)",
         settings.EMAIL_CONTENTS,
         settings.NOTIFICATIONS_EMAIL_FROM,
-        [settings.NOTIFICATIONS_EMAIL_TO, request.user.email],
+        (
+            [settings.NOTIFICATIONS_EMAIL_TO, request.user.email]
+            + ([last_refueling.user.email] if last_refueling is not None else [])
+        ),
     )
 
     messages.success(request, _("Pump top-up recorded"))

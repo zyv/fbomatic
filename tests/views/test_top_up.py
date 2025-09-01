@@ -11,7 +11,24 @@ from tests.views.conftest import TEST_PASSWORD, assert_last_redirect, assert_mes
 pytestmark = pytest.mark.django_db
 
 
-def test_top_up_success(test_client, db_pump, staff_user):
+@pytest.mark.parametrize(
+    ("last_refueling", "recipients"),
+    [
+        (False, ["fbo@localhost", "staff@example.com"]),
+        (True, ["fbo@localhost", "staff@example.com", "user@example.com"]),
+    ],
+)
+def test_top_up_success(last_refueling, recipients, test_client, db_pump, db_aircraft, normal_user, staff_user):
+    if last_refueling:
+        Refueling.objects.create(
+            pump=db_pump,
+            user=normal_user,
+            aircraft=db_aircraft,
+            counter=db_pump.counter,
+            quantity=10,
+            price=None,
+        )
+
     counter_before_top_up, remaining_before_top_up = db_pump.counter, db_pump.remaining
 
     assert test_client.login(email=staff_user.email, password=TEST_PASSWORD)
@@ -36,6 +53,10 @@ def test_top_up_success(test_client, db_pump, staff_user):
     assert record.price == Decimal("2.000")
 
     assert len(mail.outbox) == 1
+    assert mail.outbox[0].from_email == "no-reply@localhost"
+    assert mail.outbox[0].to == recipients
+    assert mail.outbox[0].subject == "[fbomatic] Pump topped-up by Staff User (100 L)"
+    assert mail.outbox[0].body == "Greetings from fbomatic!"
 
 
 def test_top_up_failure_authentication(test_client, db_pump):
