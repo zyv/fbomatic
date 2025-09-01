@@ -8,8 +8,8 @@ class PumpForm(forms.Form):
     pump = forms.ModelChoiceField(queryset=Pump.objects.all(), widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
-        self.initial = {"pump": Pump.objects.first()}
         super().__init__(*args, **kwargs)
+        self.initial = {"pump": Pump.objects.first()}
 
 
 class FuelingForm(PumpForm):
