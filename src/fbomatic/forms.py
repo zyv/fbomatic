@@ -14,12 +14,24 @@ class PumpForm(forms.Form):
 
 class FuelingForm(PumpForm):
     aircraft = forms.ModelChoiceField(label=_("Registration"), queryset=Aircraft.objects.all())
-    quantity = forms.IntegerField(label=_("Quantity"), min_value=1)
+    quantity = forms.IntegerField(
+        label=_("Quantity"),
+        min_value=1,
+        widget=forms.NumberInput(attrs={"placeholder": "123"}),
+    )
 
 
 class TopUpForm(PumpForm):
-    quantity = forms.IntegerField(label=_("Quantity"), min_value=1)
-    price = forms.DecimalField(label=_("Price"), min_value=1)
+    quantity = forms.IntegerField(
+        label=_("Quantity"),
+        min_value=1,
+        widget=forms.NumberInput(attrs={"placeholder": "321"}),
+    )
+    price = forms.DecimalField(
+        label=_("Price"),
+        min_value=1,
+        widget=forms.NumberInput(attrs={"placeholder": "1.234"}),
+    )
 
 
 class ExportForm(PumpForm):
