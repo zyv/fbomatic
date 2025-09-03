@@ -71,6 +71,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "fbomatic.context_processors.global_settings",
             ],
         },
     },
@@ -188,6 +189,8 @@ NOTIFICATIONS_EMAIL_FROM = os.getenv("NOTIFICATIONS_EMAIL_FROM", "no-reply@local
 NOTIFICATIONS_EMAIL_TO = os.getenv("NOTIFICATIONS_EMAIL_TO", "fbo@localhost")
 
 SERVER_EMAIL = DEFAULT_FROM_EMAIL = NOTIFICATIONS_EMAIL_FROM
+
+PROJECT_VERSION = os.getenv("PROJECT_VERSION", "unknown")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
