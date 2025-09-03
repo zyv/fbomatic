@@ -85,7 +85,7 @@ msgstr "Name"
 
 #: src/fbomatic/templates/fbomatic/index.html:63
 msgid "As shown after refueling"
-msgstr "Wie nach dem Tanken angezeigt"
+msgstr "Wie nach dem Tankvorgang angezeigt"
 
 #: src/fbomatic/templates/fbomatic/index.html:87
 msgid "Top-up"
