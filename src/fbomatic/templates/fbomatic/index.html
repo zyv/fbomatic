@@ -75,7 +75,7 @@
                         <td>{{ action.aircraft | refueling_type }}</td>
                         <td>
                             {% if action.price %}<abbr title="{% translate "Price" %}: {{ action.price }}">{% endif %}
-                            {{ action.quantity }}&nbsp;L
+                            {{ action.quantity|stringformat:"+d"|slice:"1:" }}&nbsp;L
                             {% if action.price %}</abbr>{% endif %}
                         </td>
                         <td>{{ action.counter }}&nbsp;L</td>
