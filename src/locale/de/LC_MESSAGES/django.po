@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 18:07+0000\n"
+"POT-Creation-Date: 2025-09-03 08:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,16 +29,16 @@ msgstr "Englisch"
 msgid "Registration"
 msgstr "Kennzeichen"
 
-#: src/fbomatic/forms.py:17 src/fbomatic/forms.py:21
+#: src/fbomatic/forms.py:18 src/fbomatic/forms.py:26
 #: src/fbomatic/templates/fbomatic/index.html:62
 msgid "Quantity"
 msgstr "Menge"
 
-#: src/fbomatic/forms.py:22 src/fbomatic/templates/fbomatic/index.html:75
+#: src/fbomatic/forms.py:31 src/fbomatic/templates/fbomatic/index.html:75
 msgid "Price"
 msgstr "Preis"
 
-#: src/fbomatic/forms.py:26
+#: src/fbomatic/forms.py:38
 msgid "Number of records"
 msgstr "Anzahl der Datensätze"
 
@@ -82,6 +82,10 @@ msgstr "Datum"
 #: src/fbomatic/templates/fbomatic/index.html:60
 msgid "Name"
 msgstr "Name"
+
+#: src/fbomatic/templates/fbomatic/index.html:63
+msgid "As shown after refueling"
+msgstr "Wie nach dem Tanken angezeigt"
 
 #: src/fbomatic/templates/fbomatic/index.html:87
 msgid "Top-up"
