@@ -20,6 +20,10 @@ class VereinsfliegerError(Exception):
     pass
 
 
+class VereinsfliegerAuthError(VereinsfliegerError):
+    pass
+
+
 class HttpClient(httpx.Client):
     BASE_URL_VEREINSFLIEGER = "https://www.vereinsflieger.de/interface/rest"
     BASE_URL_FLIGHTCENTER = "https://www.flightcenterplus.de/interface/rest"
@@ -117,12 +121,18 @@ class VereinsfliegerApiSession:
                 self._remove_access_token_hook()
                 raise
 
-        self._remove_sign_in_guard_hook()
         try:
-            authenticate()
-        except:
-            self._add_sign_in_guard_hook()
-            raise
+            self._remove_sign_in_guard_hook()
+            try:
+                authenticate()
+            except:
+                self._add_sign_in_guard_hook()
+                raise
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == httpx.codes.FORBIDDEN:
+                raise VereinsfliegerAuthError from e
+            else:
+                raise
 
     def sign_out(self):
         (access_token,) = self._access_token_hook.args if self._access_token_hook is not None else (None,)

@@ -2,7 +2,13 @@ import httpx
 import pytest
 import respx
 
-from fbomatic.vereinsflieger import HttpClient, VereinsfliegerApiSession, VereinsfliegerError, VereinsfliegerUser
+from fbomatic.vereinsflieger import (
+    HttpClient,
+    VereinsfliegerApiSession,
+    VereinsfliegerAuthError,
+    VereinsfliegerError,
+    VereinsfliegerUser,
+)
 
 pytestmark = pytest.mark.respx(base_url="https://www.vereinsflieger.de")
 
@@ -33,14 +39,14 @@ def respx_mock_sign_in(respx_mock: respx.mock) -> respx.mock:
 def test_sign_in_raise_for_status_access_token(respx_mock: respx.mock, vf_session: VereinsfliegerApiSession):
     respx_mock.post(url="/interface/rest/auth/accesstoken") % httpx.codes.FORBIDDEN
 
-    with pytest.raises(httpx.HTTPError):
+    with pytest.raises(VereinsfliegerAuthError):
         vf_session.sign_in()
 
     assert vf_session._access_token_hook is None
     with pytest.raises(VereinsfliegerError, match="not signed in"):
         vf_session.get_user()
 
-    with pytest.raises(httpx.HTTPError):
+    with pytest.raises(VereinsfliegerAuthError):
         vf_session.sign_in()
 
     assert vf_session._access_token_hook is None
@@ -51,7 +57,7 @@ def test_sign_in_raise_for_status_sign_in(respx_mock: respx.mock, vf_session: Ve
     respx_mock.post(url="/interface/rest/auth/accesstoken").respond(json={"accesstoken": "foo"})
     respx_mock.post(url="/interface/rest/auth/signin") % httpx.codes.FORBIDDEN
 
-    with pytest.raises(httpx.HTTPStatusError):
+    with pytest.raises(VereinsfliegerAuthError):
         vf_session.sign_in()
 
     assert vf_session._access_token_hook is None
