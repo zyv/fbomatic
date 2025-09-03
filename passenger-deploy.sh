@@ -25,7 +25,7 @@ if [ -d "$GIT_SOURCES" ] ; then
     GIT_HASH="$(git rev-parse --short HEAD)"
   popd
 
-  sed -E "s/^#?PROJECT_VERSION=/PROJECT_VERSION=$GIT_HASH/" "$ENV_FILE" > "$ENV_FILE.new"
+  sed -E "s/^#?PROJECT_VERSION=.*$/PROJECT_VERSION=$GIT_HASH/" "$ENV_FILE" > "$ENV_FILE.new"
   mv "$ENV_FILE.new" "$ENV_FILE"
 
 fi
