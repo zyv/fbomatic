@@ -31,7 +31,7 @@ def test_export_success_staff_csv(test_client, staff_user, normal_user, db_pump,
     Refueling.objects.create(pump=other_pump, user=staff_user, aircraft=None, counter=999, quantity=1)
 
     assert test_client.login(email=staff_user.email, password=TEST_PASSWORD)
-    response = test_client.post(reverse("fbomatic:export"), {"pump": db_pump.pk, "counter": 50, "count": 2})
+    response = test_client.post(reverse("fbomatic:export"), {"pump": db_pump.pk, "counter": 50, "records_count": 2})
 
     assert response.status_code == http.client.OK
     assert response["Content-Type"].startswith("text/csv")

@@ -53,4 +53,4 @@ class TopUpForm(PumpForm):
 
 
 class ExportForm(PumpForm):
-    count = forms.IntegerField(label=_("Number of records"), initial=500, min_value=1)
+    records_count = forms.IntegerField(label=_("Number of records"), initial=500, min_value=1)

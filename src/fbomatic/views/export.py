@@ -23,8 +23,8 @@ def export(request):
         messages.error(request, form.get_custom_error_message())
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
-    pump, count = form.cleaned_data["pump"], form.cleaned_data["count"]
-    refueling = Refueling.objects.filter(pump=pump).order_by("-timestamp")[:count]
+    pump, records_count = form.cleaned_data["pump"], form.cleaned_data["records_count"]
+    refueling = Refueling.objects.filter(pump=pump).order_by("-timestamp")[:records_count]
 
     response = HttpResponse(
         content_type="text/csv",
