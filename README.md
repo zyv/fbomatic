@@ -2,6 +2,8 @@
 
 Provisions for having multiple pumps are currently in place, but they are not actually supported.
 
+<img src="docs/fbomatic-screenshot.jpeg" width="25%" alt="fbomatic screenshot">
+
 ## Develop
 
 ```
