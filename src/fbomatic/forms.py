@@ -3,13 +3,31 @@ from django.utils.translation import gettext_lazy as _
 
 from fbomatic.models import Aircraft, Pump
 
+OUTDATED_VIEW_ERROR = _("Someone has just refueled. Check new entries and try again!")
+
 
 class PumpForm(forms.Form):
     pump = forms.ModelChoiceField(queryset=Pump.objects.all(), widget=forms.HiddenInput())
+    counter = forms.IntegerField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.initial = {"pump": Pump.objects.first()}
+        pump = Pump.objects.first()
+        self.initial = {"pump": pump, "counter": pump.counter} if pump is not None else {}
+
+    def get_custom_error_message(self):
+        if OUTDATED_VIEW_ERROR in self.non_field_errors():
+            error_message = OUTDATED_VIEW_ERROR
+        else:
+            error_message = _("Invalid form data")
+        return error_message
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pump, counter = cleaned_data.get("pump"), cleaned_data.get("counter")
+        if pump is None or pump.counter != counter:
+            raise forms.ValidationError(OUTDATED_VIEW_ERROR)
+        return cleaned_data
 
 
 class FuelingForm(PumpForm):

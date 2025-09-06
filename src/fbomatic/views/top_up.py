@@ -26,7 +26,7 @@ def top_up(request):
 
     if not form.is_valid():
         logger.warning(form.errors)
-        messages.error(request, _("Invalid form data"))
+        messages.error(request, form.get_custom_error_message())
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
     pump, quantity, price = form.cleaned_data["pump"], form.cleaned_data["quantity"], form.cleaned_data["price"]

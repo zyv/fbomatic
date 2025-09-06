@@ -5,7 +5,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 
@@ -21,7 +20,7 @@ def export(request):
     form = ExportForm(request.POST)
 
     if not form.is_valid():
-        messages.error(request, _("Invalid form data"))
+        messages.error(request, form.get_custom_error_message())
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
     pump, count = form.cleaned_data["pump"], form.cleaned_data["count"]

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-03 08:50+0000\n"
+"POT-Creation-Date: 2025-09-06 08:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/config/settings.py:120
+#: src/config/settings.py:121
 msgid "German"
 msgstr "Deutsch"
 
-#: src/config/settings.py:121
+#: src/config/settings.py:122
 msgid "English"
 msgstr "Englisch"
 
-#: src/fbomatic/forms.py:16 src/fbomatic/templates/fbomatic/index.html:61
+#: src/fbomatic/forms.py:6
+msgid "Someone has just refueled. Check new entries and try again!"
+msgstr "Jemand hat gerade getankt. Überprüfe die neuen Einträge und versuche es erneut!"
+
+#: src/fbomatic/forms.py:22 src/fbomatic/views/export.py:24
+#: src/fbomatic/views/perform_login.py:27 src/fbomatic/views/refuel.py:55
+#: src/fbomatic/views/top_up.py:53
+msgid "Invalid form data"
+msgstr "Ungültige Angaben"
+
+#: src/fbomatic/forms.py:34 src/fbomatic/templates/fbomatic/index.html:61
 msgid "Registration"
 msgstr "Kennzeichen"
 
-#: src/fbomatic/forms.py:18 src/fbomatic/forms.py:26
+#: src/fbomatic/forms.py:36 src/fbomatic/forms.py:44
 #: src/fbomatic/templates/fbomatic/index.html:62
 msgid "Quantity"
 msgstr "Menge"
 
-#: src/fbomatic/forms.py:31 src/fbomatic/templates/fbomatic/index.html:75
+#: src/fbomatic/forms.py:49 src/fbomatic/templates/fbomatic/index.html:77
 msgid "Price"
 msgstr "Preis"
 
-#: src/fbomatic/forms.py:38
+#: src/fbomatic/forms.py:56
 msgid "Number of records"
 msgstr "Anzahl der Datensätze"
 
@@ -47,7 +57,7 @@ msgid "Language"
 msgstr "Sprache"
 
 #: src/fbomatic/templates/fbomatic/index.html:11
-#: src/fbomatic/templates/fbomatic/index.html:63
+#: src/fbomatic/templates/fbomatic/index.html:64
 msgid "Counter"
 msgstr "Zählerstand"
 
@@ -83,43 +93,37 @@ msgstr "Datum"
 msgid "Name"
 msgstr "Name"
 
-#: src/fbomatic/templates/fbomatic/index.html:63
+#: src/fbomatic/templates/fbomatic/index.html:64
 msgid "As shown after refueling"
 msgstr "Wie nach dem Tankvorgang angezeigt"
 
-#: src/fbomatic/templates/fbomatic/index.html:87
+#: src/fbomatic/templates/fbomatic/index.html:89
 msgid "Top-up"
 msgstr "Auffüllen"
 
-#: src/fbomatic/templates/fbomatic/index.html:94
+#: src/fbomatic/templates/fbomatic/index.html:96
 msgid "Record top-up"
 msgstr "Auffüllung erfassen"
 
-#: src/fbomatic/templates/fbomatic/index.html:106
+#: src/fbomatic/templates/fbomatic/index.html:108
 msgid "Export as CSV"
 msgstr "Als CSV exportieren"
 
-#: src/fbomatic/templates/fbomatic/index.html:115
+#: src/fbomatic/templates/fbomatic/index.html:117
 msgid "Administration"
 msgstr "Verwaltung"
 
-#: src/fbomatic/templates/fbomatic/index.html:125
+#: src/fbomatic/templates/fbomatic/index.html:127
 msgid "Log out"
 msgstr ""
 
-#: src/fbomatic/templates/fbomatic/index.html:135
+#: src/fbomatic/templates/fbomatic/index.html:137
 msgid "Are you sure you want to proceed?"
 msgstr "Möchten Sie wirklich fortfahren?"
 
 #: src/fbomatic/templatetags/fbomatic_utils.py:11
 msgid "Pump refilled"
 msgstr "Tankwagen nachgefüllt"
-
-#: src/fbomatic/views/export.py:24 src/fbomatic/views/perform_login.py:27
-#: src/fbomatic/views/refuel.py:30 src/fbomatic/views/refuel.py:55
-#: src/fbomatic/views/top_up.py:29 src/fbomatic/views/top_up.py:53
-msgid "Invalid form data"
-msgstr "Ungültige Angaben"
 
 #: src/fbomatic/views/index.py:49
 #, python-brace-format
