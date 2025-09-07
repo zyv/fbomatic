@@ -54,13 +54,18 @@ def top_up(request):
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
     message = EmailMessage(
-        f"{settings.EMAIL_SUBJECT_PREFIX}"
-        f"Pump topped-up by {request.user.first_name} {request.user.last_name} ({quantity} L)",
-        settings.EMAIL_CONTENTS,
-        settings.NOTIFICATIONS_EMAIL_FROM,
-        (
+        subject=(
+            f"{settings.EMAIL_SUBJECT_PREFIX}"
+            f"Pump topped-up by {request.user.first_name} {request.user.last_name} ({quantity} L)"
+        ),
+        body=settings.EMAIL_CONTENTS,
+        from_email=settings.NOTIFICATIONS_EMAIL_FROM,
+        to=(
             [settings.NOTIFICATIONS_EMAIL_TO, request.user.email]
             + ([last_refueling.user.email] if last_refueling is not None else [])
+        ),
+        reply_to=(
+            [settings.NOTIFICATIONS_EMAIL_REPLY_TO] if settings.NOTIFICATIONS_EMAIL_REPLY_TO is not None else None
         ),
     )
     message.send()

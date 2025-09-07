@@ -60,11 +60,16 @@ def refuel(request):
         and pump_remaining_before >= settings.REFUELING_THRESHOLD_LITERS
     ):
         message = EmailMessage(
-            f"{settings.EMAIL_SUBJECT_PREFIX}"
-            f"Please refill, remaining fuel {pump.remaining} L < {settings.REFUELING_THRESHOLD_LITERS} L",
-            settings.EMAIL_CONTENTS,
-            settings.NOTIFICATIONS_EMAIL_FROM,
-            [settings.NOTIFICATIONS_EMAIL_TO, request.user.email],
+            subject=(
+                f"{settings.EMAIL_SUBJECT_PREFIX}"
+                f"Please refill, remaining fuel {pump.remaining} L < {settings.REFUELING_THRESHOLD_LITERS} L"
+            ),
+            body=settings.EMAIL_CONTENTS,
+            from_email=settings.NOTIFICATIONS_EMAIL_FROM,
+            to=[settings.NOTIFICATIONS_EMAIL_TO, request.user.email],
+            reply_to=(
+                [settings.NOTIFICATIONS_EMAIL_REPLY_TO] if settings.NOTIFICATIONS_EMAIL_REPLY_TO is not None else None
+            ),
         )
         message.send()
 

@@ -40,6 +40,7 @@ def test_refuel_success_no_mail(test_client, db_pump, db_aircraft, settings, nor
 
 def test_refuel_success_and_email_sent(test_client, db_pump, db_aircraft, settings, normal_user):
     settings.REFUELING_THRESHOLD_LITERS = db_pump.remaining
+    settings.NOTIFICATIONS_EMAIL_REPLY_TO = "reply-to@localhost"
 
     assert test_client.login(email=normal_user.email, password=TEST_PASSWORD)
     test_client.post(
@@ -50,6 +51,7 @@ def test_refuel_success_and_email_sent(test_client, db_pump, db_aircraft, settin
 
     assert len(mail.outbox) == 1
     assert mail.outbox[0].from_email == "no-reply@localhost"
+    assert mail.outbox[0].reply_to == ["reply-to@localhost"]
     assert mail.outbox[0].to == ["fbo@localhost", "user@example.com"]
     assert mail.outbox[0].subject == "[fbomatic] Please refill, remaining fuel 490 L < 500 L"
     assert mail.outbox[0].body == "Greetings from fbomatic!"

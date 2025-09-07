@@ -54,6 +54,7 @@ def test_top_up_success(last_refueling, recipients, test_client, db_pump, db_air
 
     assert len(mail.outbox) == 1
     assert mail.outbox[0].from_email == "no-reply@localhost"
+    assert mail.outbox[0].reply_to == []
     assert mail.outbox[0].to == recipients
     assert mail.outbox[0].subject == "[fbomatic] Pump topped-up by Staff User (100 L)"
     assert mail.outbox[0].body == "Greetings from fbomatic!"
