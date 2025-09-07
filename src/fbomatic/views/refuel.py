@@ -4,7 +4,7 @@ import reversion
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.db import IntegrityError
 from django.db.models import F
 from django.http import HttpResponseRedirect
@@ -59,13 +59,14 @@ def refuel(request):
         pump.remaining < settings.REFUELING_THRESHOLD_LITERS
         and pump_remaining_before >= settings.REFUELING_THRESHOLD_LITERS
     ):
-        send_mail(
+        message = EmailMessage(
             f"{settings.EMAIL_SUBJECT_PREFIX}"
             f"Please refill, remaining fuel {pump.remaining} L < {settings.REFUELING_THRESHOLD_LITERS} L",
             settings.EMAIL_CONTENTS,
             settings.NOTIFICATIONS_EMAIL_FROM,
             [settings.NOTIFICATIONS_EMAIL_TO, request.user.email],
         )
+        message.send()
 
     messages.success(request, _("Refueling recorded"))
     return HttpResponseRedirect(reverse("fbomatic:index"))

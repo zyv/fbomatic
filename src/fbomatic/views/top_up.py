@@ -4,7 +4,7 @@ import reversion
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -53,7 +53,7 @@ def top_up(request):
         messages.error(request, _("Invalid form data"))
         return HttpResponseRedirect(reverse("fbomatic:index"))
 
-    send_mail(
+    message = EmailMessage(
         f"{settings.EMAIL_SUBJECT_PREFIX}"
         f"Pump topped-up by {request.user.first_name} {request.user.last_name} ({quantity} L)",
         settings.EMAIL_CONTENTS,
@@ -63,6 +63,7 @@ def top_up(request):
             + ([last_refueling.user.email] if last_refueling is not None else [])
         ),
     )
+    message.send()
 
     messages.success(request, _("Pump top-up recorded"))
     return HttpResponseRedirect(reverse("fbomatic:index"))
