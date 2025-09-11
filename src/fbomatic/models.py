@@ -8,12 +8,13 @@ from django.db.models import CheckConstraint, F, Q
 
 class Aircraft(models.Model):
     registration = models.CharField(max_length=16, unique=True)
+    priority = models.PositiveIntegerField(default=1000)
 
     def __str__(self):
         return self.registration
 
     class Meta:
-        ordering = ("registration",)
+        ordering = ("-priority", "registration")
         verbose_name_plural = "aircraft"
 
 
