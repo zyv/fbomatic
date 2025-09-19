@@ -161,6 +161,9 @@ if DEBUG:
 AUTH_USER_MODEL = "cuser.CUser"
 AUTHENTICATION_BACKENDS = ["fbomatic.backends.VereinsfliegerBackend"]
 
+SESSION_COOKIE_AGE = 90 * 24 * 60 * 60
+SESSION_SAVE_EVERY_REQUEST = True
+
 LOGIN_URL = reverse_lazy("fbomatic:login")
 LOGIN_REDIRECT_URL = reverse_lazy("fbomatic:index")
 LOGOUT_REDIRECT_URL = reverse_lazy("fbomatic:index")
