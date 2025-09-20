@@ -172,7 +172,7 @@ VEREINSFLIEGER_APP_KEY = (
     os.environ["VEREINSFLIEGER_APP_KEY"] if not DEBUG else os.getenv("VEREINSFLIEGER_APP_KEY", "dummy")
 )
 
-REFUELING_THRESHOLD_LITERS = 50
+REFUELING_THRESHOLD_LITERS = 75
 
 ADMINS = [("", email) for email in os.getenv("DJANGO_ADMINS", "").split(",")]
 
