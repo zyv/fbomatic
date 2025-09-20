@@ -1,9 +1,14 @@
 from decimal import Decimal
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import CheckConstraint, F, Q
+
+User = get_user_model()
+
+User.__str__ = lambda self: f"{self.first_name} {self.last_name} ({self.email})"
 
 
 class Aircraft(models.Model):
