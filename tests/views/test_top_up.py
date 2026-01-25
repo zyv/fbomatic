@@ -80,11 +80,33 @@ def test_top_up_failure_capacity(test_client, db_pump, staff_user):
     assert_message(response, messages.ERROR)
 
 
-def test_top_up_failure_form_data(test_client, db_pump, staff_user):
+def test_top_up_failure_form_data_counter(test_client, db_pump, staff_user):
     assert test_client.login(email=staff_user.email, password=TEST_PASSWORD)
     response = test_client.post(
         reverse("fbomatic:top-up"),
         data={"pump": db_pump.id, "quantity": -10, "price": Decimal("0.123")},
+        follow=True,
+    )
+    assert_last_redirect(response, reverse("fbomatic:index"))
+    assert_message(response, messages.ERROR)
+
+
+def test_top_up_failure_form_data_quantity(test_client, db_pump, staff_user):
+    assert test_client.login(email=staff_user.email, password=TEST_PASSWORD)
+    response = test_client.post(
+        reverse("fbomatic:top-up"),
+        data={"pump": db_pump.id, "counter": db_pump.counter, "quantity": -10, "price": Decimal("0.123")},
+        follow=True,
+    )
+    assert_last_redirect(response, reverse("fbomatic:index"))
+    assert_message(response, messages.ERROR)
+
+
+def test_top_up_failure_form_data_price(test_client, db_pump, staff_user):
+    assert test_client.login(email=staff_user.email, password=TEST_PASSWORD)
+    response = test_client.post(
+        reverse("fbomatic:top-up"),
+        data={"pump": db_pump.id, "counter": db_pump.counter, "quantity": 10, "price": "187"},
         follow=True,
     )
     assert_last_redirect(response, reverse("fbomatic:index"))
