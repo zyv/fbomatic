@@ -36,6 +36,9 @@ class Pump(models.Model):
         constraints = (CheckConstraint(condition=Q(remaining__lte=F("capacity")), name="remaining_lte_capacity"),)
 
 
+REFUELING_PRICE_KWARGS = {"max_digits": 5, "decimal_places": 3}
+
+
 class Refueling(models.Model):
     pump = models.ForeignKey(Pump, on_delete=models.PROTECT)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -45,11 +48,10 @@ class Refueling(models.Model):
     quantity = models.IntegerField()
 
     price = models.DecimalField(
-        max_digits=5,
-        decimal_places=3,
         validators=[MinValueValidator(Decimal("1"))],
         blank=True,
         null=True,
+        **REFUELING_PRICE_KWARGS,
     )
 
     def __str__(self):

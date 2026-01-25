@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from fbomatic.models import Aircraft, Pump
+from fbomatic.models import REFUELING_PRICE_KWARGS, Aircraft, Pump
 
 OUTDATED_VIEW_ERROR = _("Someone has just refueled. Check new entries and try again!")
 
@@ -47,8 +47,8 @@ class TopUpForm(PumpForm):
     )
     price = forms.DecimalField(
         label=_("Price"),
-        min_value=1,
         widget=forms.NumberInput(attrs={"placeholder": "1.234"}),
+        **REFUELING_PRICE_KWARGS,
     )
 
 
