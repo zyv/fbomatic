@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-06 08:45+0000\n"
+"POT-Creation-Date: 2026-04-15 10:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,11 +27,12 @@ msgstr "Englisch"
 
 #: src/fbomatic/forms.py:6
 msgid "Someone has just refueled. Check new entries and try again!"
-msgstr "Jemand hat gerade getankt. Überprüfe die neuen Einträge und versuche es erneut!"
+msgstr ""
+"Jemand hat gerade getankt. Überprüfe die neuen Einträge und versuche es "
+"erneut!"
 
-#: src/fbomatic/forms.py:22 src/fbomatic/views/export.py:24
-#: src/fbomatic/views/perform_login.py:27 src/fbomatic/views/refuel.py:55
-#: src/fbomatic/views/top_up.py:53
+#: src/fbomatic/forms.py:22 src/fbomatic/views/perform_login.py:27
+#: src/fbomatic/views/refuel.py:55 src/fbomatic/views/top_up.py:53
 msgid "Invalid form data"
 msgstr "Ungültige Angaben"
 
@@ -44,9 +45,9 @@ msgstr "Kennzeichen"
 msgid "Quantity"
 msgstr "Menge"
 
-#: src/fbomatic/forms.py:49 src/fbomatic/templates/fbomatic/index.html:77
-msgid "Price"
-msgstr "Preis"
+#: src/fbomatic/forms.py:49
+msgid "Price per liter"
+msgstr "Preis pro Liter"
 
 #: src/fbomatic/forms.py:56
 msgid "Number of records"
@@ -97,6 +98,10 @@ msgstr "Name"
 msgid "As shown after refueling"
 msgstr "Wie nach dem Tankvorgang angezeigt"
 
+#: src/fbomatic/templates/fbomatic/index.html:77
+msgid "Price"
+msgstr "Preis"
+
 #: src/fbomatic/templates/fbomatic/index.html:89
 msgid "Top-up"
 msgstr "Auffüllen"
@@ -134,7 +139,7 @@ msgstr "Letzte {count} Tankvorgänge"
 msgid "Welcome,"
 msgstr ""
 
-#: src/fbomatic/views/refuel.py:70
+#: src/fbomatic/views/refuel.py:76
 msgid "Refueling recorded"
 msgstr "Tankvorgang erfasst"
 
@@ -146,6 +151,6 @@ msgstr "Löschen des Tankvorgangs ist fehlgeschlagen"
 msgid "Refueling deleted"
 msgstr "Tankvorgang gelöscht"
 
-#: src/fbomatic/views/top_up.py:67
+#: src/fbomatic/views/top_up.py:73
 msgid "Pump top-up recorded"
 msgstr "Auffüllung des Tankwagens erfasst"

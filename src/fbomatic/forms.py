@@ -46,7 +46,7 @@ class TopUpForm(PumpForm):
         widget=forms.NumberInput(attrs={"placeholder": "321"}),
     )
     price = forms.DecimalField(
-        label=_("Price"),
+        label=_("Price per liter"),
         widget=forms.NumberInput(attrs={"placeholder": "1.234"}),
         **REFUELING_PRICE_KWARGS,
     )
