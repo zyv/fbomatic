@@ -7,10 +7,10 @@ Provisions for having multiple pumps are currently in place, but they are not ac
 ## Develop
 
 ```
-./manage.py makemessages -l de
-./manage.py createsuperuser
-./manage.py makemigrations
-./manage.py makemessages -a
+./manage.sh makemessages -l de
+./manage.sh createsuperuser
+./manage.sh makemigrations
+./manage.sh makemessages -a
 ```
 
 ## Deploy
