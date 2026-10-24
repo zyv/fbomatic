@@ -41,3 +41,8 @@ from urllib.parse import quote
 
 quote("password")
 ```
+
+## Vendoring
+
+* [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+* [select2-bootstrap-5-theme](https://apalfrey.github.io/select2-bootstrap-5-theme/) should match Django's Select2 version
